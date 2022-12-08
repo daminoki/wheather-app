@@ -4,3 +4,6 @@
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__title/header__title.css);
 @import url(./blocks/container/container.css);
+@import url(./blocks/search/search.css);
+@import url(./blocks/search/__title/search__title.css);
+@import url(./blocks/search/__icon/search__icon.css);
