@@ -1,0 +1,25 @@
+.search__input {
+  width: 590px;
+  padding-left: 60px;
+  background-color: var(--main-widgets-bg-color);
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: var(--sec-text-color);
+  }
+
+  &::-webkit-search-cancel-button {
+    width: 24px;
+    height: 24px;
+    margin-left: 10px;
+    background: url("/src/images/close-icon.svg") no-repeat 50% 50%;
+    background-size: 24px;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-right: 15px;
+  }
+}
