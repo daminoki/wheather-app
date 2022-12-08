@@ -1,0 +1,6 @@
+.main-information__temp {
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 54px;
+    color: var(--main-text-color);
+}

@@ -1,0 +1,5 @@
+.main-information__temp-diff {
+    color: var(--main-text-color);
+    font-size: 16px;
+    line-height: 24px;
+}

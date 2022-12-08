@@ -3,6 +3,7 @@
     border-radius: 15px;
     display: flex;
     flex-direction: row;
+    align-items:center;
     height: 45px;
     position: relative;
 }

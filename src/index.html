@@ -20,8 +20,29 @@
     <main>
         <div class="container">
             <section class="search">
-                    <img class="search__icon" src="./images/search-icon.svg" alt="search icon">
-                    <p class="search__title">Search Location</p>
+                <img class="search__icon" src="./images/search-icon.svg" alt="search icon">
+                <input id="input" type="search" class="search__input" placeholder="Search Location">
+            </section>
+
+            <section class="main-information">
+                <div class="main-information__wrapper">
+                    <img class="main-information__weather-icon" src="./images/weather.png" alt="weather icon">
+                    <div class="main-information__temp-wrapper">
+                        <p class="main-information__temp">-17°</p>
+                        <p class="main-information__temp-diff">H: -15° L: -21°</p>
+                        <p class="main-information__weather-description">Partly cloudy</p>
+                    </div>
+                </div>
+                <div class="main-information__city-date-wrapper">
+                    <div class="main-information__city-wrapper">
+                        <p class="main-information__city">Kazan</p>
+                        <img class="main-information__navig-icon" src="./images/navig-icon.png" alt="navigation icon">
+                    </div>
+                    <div class="main-information__current-date-wrapper">
+                        <p class="main-information__current-date">Tuesday, 8 dec</p>
+                        <p class="main-information__current-time">13:45</p>
+                    </div>
+                </div>
             </section>
         </div>
     </main>

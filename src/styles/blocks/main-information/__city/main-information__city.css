@@ -1,0 +1,6 @@
+.main-information__city {
+    color: var(--main-text-color);
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 45px;
+}

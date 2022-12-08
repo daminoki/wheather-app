@@ -1,0 +1,14 @@
+.search__input {
+    padding-left: 60px;
+    width: 580px;
+    border: none;
+    outline: none;
+}
+
+input.search__input, textarea {
+    background-color: var(--main-widgets-bg-color);
+}
+
+.search__input::placeholder {
+    color: var(--sec-text-color);
+}
