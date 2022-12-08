@@ -1,11 +1,11 @@
 .main-information__wrapper {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 @media screen and (max-width: 767px) {
-    .main-information__wrapper {
-        justify-content: center; 
-    }
+  .main-information__wrapper {
+    justify-content: center;
+  }
 }
