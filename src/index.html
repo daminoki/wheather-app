@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles/style.css">
     <title>Wheather Today</title>
 </head>
 <body>
@@ -20,13 +19,13 @@
     <main>
         <div class="container">
             <section class="search">
-                <img class="search__icon" src="./images/search-icon.svg" alt="search icon">
+                <img class="search__icon" src="<%=require('./images/search-icon.svg')%>" alt="search icon">
                 <input id="input" type="search" class="search__input" placeholder="Search Location">
             </section>
 
             <section class="main-information">
                 <div class="main-information__wrapper">
-                    <img class="main-information__weather-icon" src="./images/weather.png" alt="weather icon">
+                    <img class="main-information__weather-icon" src="<%=require('./images/weather.png')%>" alt="weather icon">
                     <div class="main-information__temp-wrapper">
                         <p class="main-information__temp">-17°</p>
                         <p class="main-information__temp-diff">H: -15° L: -21°</p>
@@ -36,7 +35,7 @@
                 <div class="main-information__city-date-wrapper">
                     <div class="main-information__city-wrapper">
                         <p class="main-information__city">Kazan</p>
-                        <img class="main-information__navig-icon" src="./images/navig-icon.png" alt="navigation icon">
+                        <img class="main-information__navig-icon" src="<%=require('./images/navig-icon.png')%>" alt="navigation icon">
                     </div>
                     <div class="main-information__current-date-wrapper">
                         <p class="main-information__current-date">Tuesday, 8 dec</p>
