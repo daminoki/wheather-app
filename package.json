@@ -31,8 +31,11 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "html-webpack-plugin": "^5.5.0",
+    "import-glob-loader": "^1.1.0",
     "mini-css-extract-plugin": "^2.7.2",
     "postcss-loader": "^7.0.2",
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
     "stylelint": "^14.16.0",
     "stylelint-config-standard-scss": "^6.1.0",
     "webpack": "^5.75.0",
@@ -40,6 +43,8 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "core-js": "^3.26.1"
+    "core-js": "^3.26.1",
+    "stylelint-config-rational-order": "^0.1.2",
+    "webpack-import-glob-loader": "^1.6.3"
   }
 }

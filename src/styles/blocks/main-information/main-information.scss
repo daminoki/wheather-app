@@ -1,13 +1,11 @@
 .main-information {
-  margin-top: 40px;
   display: flex;
   justify-content: space-between;
-}
+  margin-top: 40px;
 
-@media screen and (max-width: 767px) {
-  .main-information {
+  @media screen and (max-width: 767px) {
     flex-direction: column-reverse;
-    align-items: center;
     gap: 30px;
+    align-items: center;
   }
 }
