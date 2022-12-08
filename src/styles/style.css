@@ -1,0 +1,6 @@
+@import url(reset.css);
+@import url(variables.css);
+@import url(global.css);
+@import url(./blocks/header/header.css);
+@import url(./blocks/header/__title/header__title.css);
+@import url(./blocks/container/container.css);
