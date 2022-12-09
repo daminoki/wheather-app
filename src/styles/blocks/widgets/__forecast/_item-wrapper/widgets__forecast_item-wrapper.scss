@@ -1,0 +1,10 @@
+.widgets__forecast_item-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 15px;
+}

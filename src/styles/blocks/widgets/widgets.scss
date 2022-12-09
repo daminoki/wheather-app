@@ -1,0 +1,15 @@
+.widgets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 40px;
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: auto;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+}

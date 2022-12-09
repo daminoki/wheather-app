@@ -25,7 +25,7 @@
 
             <section class="main-information">
                 <div class="main-information__wrapper">
-                    <img class="main-information__weather-icon" src="<%=require('./images/weather.png')%>" alt="weather icon">
+                    <img class="main-information__weather-icon" src="<%=require('./images/weather.svg')%>" alt="weather icon">
                     <div class="main-information__temp-wrapper">
                         <p class="main-information__temp">-17°</p>
                         <p class="main-information__temp-diff">H: -15° L: -21°</p>
@@ -35,7 +35,7 @@
                 <div class="main-information__city-date-wrapper">
                     <div class="main-information__city-wrapper">
                         <p class="main-information__city">Kazan</p>
-                        <img class="main-information__navig-icon" src="<%=require('./images/navig-icon.png')%>" alt="navigation icon">
+                        <img class="main-information__navig-icon" src="<%=require('./images/navig-icon.svg')%>" alt="navigation icon">
                     </div>
                     <div class="main-information__current-date-wrapper">
                         <p class="main-information__current-date">Tuesday, 8 dec</p>
@@ -45,37 +45,67 @@
             </section>
 
             <section class="widgets">
-                <div class="widgets-wrapper">
+                <div class="widgets_wrapper">
                     <div class="widgets__main">
                         <div class="widgets__main_wrapper">
-                            <img class="widgets__main_img" src="<%=require('./images/visibility-icon.png')%>" alt="visibility">
+                            <img class="widgets__main_img" src="<%=require('./images/visibility-icon.svg')%>" alt="visibility">
                             <p class="widgets__main_title">Visibility</p>
                         </div>
                         <p class="widgets__main_description">10 km</p>
                     </div>
                     <div class="widgets__main">
                         <div class="widgets__main_wrapper">
-                            <img class="widgets__main_img" src="<%=require('./images/wind-icon.png')%>" alt="wind">
+                            <img class="widgets__main_img" src="<%=require('./images/wind-icon.svg')%>" alt="wind">
                             <p class="widgets__main_title">Wind</p>
                         </div>
                         <p class="widgets__main_description">3 m/s</p>
                     </div>
                     <div class="widgets__main">
                         <div class="widgets__main_wrapper">
-                            <img class="widgets__main_img" src="<%=require('./images/humidity-icon.png')%>" alt="humidity">
+                            <img class="widgets__main_img" src="<%=require('./images/humidity-icon.svg')%>" alt="humidity">
                             <p class="widgets__main_title">Humidity</p>
                         </div>
                         <p class="widgets__main_description">81%</p>
                     </div>
                     <div class="widgets__main">
                         <div class="widgets__main_wrapper">
-                            <img class="widgets__main_img" src="<%=require('./images/feels-like-icon.png')%>" alt="feels-like">
+                            <img class="widgets__main_img" src="<%=require('./images/feels-like-icon.svg')%>" alt="feels-like">
                             <p class="widgets__main_title">Feels like</p>
                         </div>
                         <p class="widgets__main_description">-21°</p>
                     </div>
                 </div>
-                <div class="widgets__forecast"></div>
+                <div class="widgets__forecast">
+                    <div class="widgets__forecast_wrapper">
+                        <img class="widgets__forecast_calendar-img" src="<%=require('./images/calendar-icon.svg')%>" alt="calendar-icon">
+                        <p class="widgets__forecast_title">5-day forecast</p>
+                    </div>
+                    <div class="widgets__forecast_item-wrapper">
+                        <p class="widgets__forecast_day">Mon</p>
+                        <img class="widgets__forecast_img" src="<%=require('./images/weather.svg')%>" alt="weather-icon">
+                        <p class="widgets__forecast_temp">H: -15° <span class="widgets__forecast_temp_l">L: -21°</span></p>
+                    </div>
+                    <div class="widgets__forecast_item-wrapper">
+                        <p class="widgets__forecast_day">Tue</p>
+                        <img class="widgets__forecast_img" src="<%=require('./images/weather.svg')%>" alt="weather-icon">
+                        <p class="widgets__forecast_temp">H: -15° <span class="widgets__forecast_temp_l">L: -21°</span></p>
+                    </div>
+                    <div class="widgets__forecast_item-wrapper">
+                        <p class="widgets__forecast_day">Wed</p>
+                        <img class="widgets__forecast_img" src="<%=require('./images/weather.svg')%>" alt="weather-icon">
+                        <p class="widgets__forecast_temp">H: -15° <span class="widgets__forecast_temp_l">L: -21°</span></p>
+                    </div>
+                    <div class="widgets__forecast_item-wrapper">
+                        <p class="widgets__forecast_day">Thu</p>
+                        <img class="widgets__forecast_img" src="<%=require('./images/weather.svg')%>" alt="weather-icon">
+                        <p class="widgets__forecast_temp">H: -15° <span class="widgets__forecast_temp_l">L: -21°</span></p>
+                    </div>
+                    <div class="widgets__forecast_item-wrapper">
+                        <p class="widgets__forecast_day">Fri</p>
+                        <img class="widgets__forecast_img" src="<%=require('./images/weather.svg')%>" alt="weather-icon">
+                        <p class="widgets__forecast_temp">H: -15° <span class="widgets__forecast_temp_l">L: -21°</span></p>
+                    </div>
+                </div>
             </section>
         </div>
     </main>
