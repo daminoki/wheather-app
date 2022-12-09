@@ -21,6 +21,14 @@
             <section class="search">
                 <img class="search__icon" src="<%=require('./images/search-icon.svg')%>" alt="search icon">
                 <input id="input" type="search" class="search__input" placeholder="Search Location">
+                <template class="search__dropdown-template">
+                    <div class="search__dropdown">
+                        <button class="search__dropdown-button">Rome</button>
+                        <button class="search__dropdown-button">London</button>
+                        <button class="search__dropdown-button">China</button>
+                        <button class="search__dropdown-button">Kazan</button>
+                    </div>
+                </template>
             </section>
 
             <section class="main-information">

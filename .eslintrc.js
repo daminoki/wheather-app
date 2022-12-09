@@ -10,4 +10,9 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  rules: {
+    "no-underscore-dangle": {
+      "allowAfterThis": false
+    }
+  }
 };
