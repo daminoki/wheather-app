@@ -3,12 +3,14 @@ export default class Api {
     this._url = url;
   }
 
-  async fetchData() {
+  async getFetchResults() {
     try {
-        const response = await fetch(this._url);
-        const data = await response.json();
+      const response = await fetch(this._url);
+      const { data } = await response.json();
+
+      return data || null;
     } catch (err) {
-        alert(err);
+      alert(err);
     }
   }
 }
