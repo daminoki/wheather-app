@@ -31,4 +31,13 @@
   @media screen and (max-width: 768px) {
     padding-right: 15px;
   }
+
+  &_opened {
+    border-radius: 15px 15px 0 0;
+
+    &:focus,
+    &:hover {
+      box-shadow: 0 8px 10px rgb(173 216 230 / 40%);
+    }
+  }
 }

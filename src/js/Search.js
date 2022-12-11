@@ -1,12 +1,14 @@
 const cityList = [
-  'Kirov',
-  'Karaganda',
-  'Kazan, Russia',
-  'Kazan, Turkey',
+  { title: 'Kirov', lat: 58.59665, lon: 49.66007 },
+  { title: 'Karaganda', lat: 49.83333, lon: 73.1658 },
+  { title: 'Kazan Russia', lat: 55.796391, lon: 49.108891 },
+  { title: 'Kazan Turkey', lat: 40.205166, lon: 32.681183 },
+  { title: 'Kumeny', lat: 58.10887, lon: 49.91614 },
+  { title: 'Kostroma', lat: 57.767193, lon: 40.976257 },
 ];
 
 function contains(query) {
-  return cityList.filter((title) => title.toLowerCase().includes(query.toLowerCase()));
+  return cityList.filter((city) => city.title.toLowerCase().includes(query.toLowerCase()));
 }
 
 const server = {
@@ -62,22 +64,23 @@ export default class Search {
 
     if (!list.length) {
       this._dropdownEl.innerHTML = '';
+      this._inputEl.classList.remove('search__input_opened');
       return;
     }
 
+    this._inputEl.classList.add('search__input_opened');
     this._wrapper.append(this._dropdownEl);
-    const buttonList = String(list.map((item) => `<button class="search__dropdown-button">${item}</button>`)).split(',').join('');
+    const buttonList = String(list.map((item) => `<button class="search__dropdown-button">${item.title}</button>`)).split(',').join('');
     this._dropdownEl.innerHTML = buttonList;
-  }
 
-  // слушать набор текста в инпуте
-  // использовать debounce
-  // получать данные с апи, использую input.value
-  // открывать дропдаун и выводить в него полученные данные
-  // слушать событие клика по элементу дропдауна
-  // брать данные элемента кликнутого дропдауна и использовать их для вывода
-  // информации на странице и поиска погоды (lat, lon)
-  // закрыть дропдаун
-  // очищаем input
-  // добавить слушатель на кнопку clear - закрывать дропдаун и очищать input
+    this._dropdownEl.addEventListener('click', (e) => {
+      list.forEach((item) => {
+        if (e.target.textContent === item.title) {
+          const { lat } = item;
+          const { lon } = item;
+          console.log(lat, lon);
+        }
+      });
+    });
+  }
 }
