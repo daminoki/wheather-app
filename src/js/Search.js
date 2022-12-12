@@ -37,12 +37,13 @@ export default class Search {
       .cloneNode(true);
     this._dropdownItemEl = this._dropdownEl.querySelector(dropdownItem);
     this._results = [];
-    this.debouncedHandle = debounce(this.handleInput.bind(this), 250);
+    this._debouncedHandle = debounce(this._handleInput.bind(this), 250);
     this._api = api;
   }
 
   setEventListeners() {
-    this._inputEl.addEventListener('input', this.debouncedHandle);
+    this._inputEl.addEventListener('input', this._debouncedHandle);
+    this._handleClick();
     window.addEventListener('click', (e) => {
       if (!e.target.contains(this._dropdownItemEl)) {
         this._handleClose();
@@ -50,9 +51,8 @@ export default class Search {
     });
   }
 
-  async handleInput({ target }) {
+  async _handleInput({ target }) {
     const { value } = target;
-
     const { list } = await server.search(value);
     this._results = list;
 
@@ -61,17 +61,16 @@ export default class Search {
     } else {
       this._inputEl.classList.add('search__input_opened');
     }
-
     renderResults(this._wrapper, this._dropdownEl, this._results);
+  }
 
+  async _handleClick() {
     this._dropdownEl.addEventListener('click', async (e) => {
       const selectedItemIndex = [...this._dropdownEl.children].indexOf(e.target);
       const selectedItem = this._results[selectedItemIndex];
 
       await this._fetchSelectedItemData(selectedItem);
-      this._dropdownEl.remove();
-      this._inputEl.classList.remove('search__input_opened');
-      this._inputEl.value = '';
+      this._handleClose();
     });
   }
 
