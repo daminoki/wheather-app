@@ -1,4 +1,5 @@
 import api from '../api/api';
+// import { renderResults } from './renderResults';
 
 const cityList = [
   { title: 'Kirov', lat: 58.59665, lon: 49.66007 },
@@ -9,6 +10,7 @@ const cityList = [
   { title: 'Kostroma', lat: 57.767193, lon: 40.976257 },
 ];
 
+// eslint-disable-next-line no-unused-vars
 const listItem = (title) => `<button class="search__dropdown-button">${title}</button>`;
 
 function contains(query) {
@@ -52,6 +54,7 @@ export default class Search {
     this._dropdownItemEl = this._dropdownEl.querySelector('.search__dropdown-button');
     this._results = [];
     this.debouncedHandle = debounce(this.handleInput.bind(this), 250);
+    this._handleEscClose = this._handleEscClose.bind(this);
   }
 
   init() {
@@ -62,6 +65,17 @@ export default class Search {
     this._inputEl.addEventListener('input', this.debouncedHandle);
   }
 
+  renderResults(dropdownEl, results) {
+    this._wrapper.append(dropdownEl);
+    dropdownEl.innerHTML = '';
+    results.forEach((item) => {
+      dropdownEl.insertAdjacentHTML(
+        'beforeend',
+        `<button class="search__dropdown-button">${item.title}</button>`,
+      );
+    });
+  }
+
   async handleInput({ target }) {
     const { value } = target;
 
@@ -69,29 +83,38 @@ export default class Search {
     this._results = list;
 
     if (!this._results.length) {
-      this._dropdownEl.innerHTML = '';
       this._inputEl.classList.remove('search__input_opened');
-      return;
+    } else {
+      this._inputEl.classList.add('search__input_opened');
     }
 
-    this._inputEl.classList.add('search__input_opened');
-    this._wrapper.append(this._dropdownEl);
-    this._results.forEach((item) => {
-      this._dropdownEl.insertAdjacentHTML('beforeend', listItem(item.title));
-    });
+    this.renderResults(this._dropdownEl, this._results);
 
     this._dropdownEl.addEventListener('click', async (e) => {
       const selectedItemIndex = [...this._dropdownEl.children].indexOf(e.target);
       const selectedItem = this._results[selectedItemIndex];
 
-      this._fetchSelectedItemData(selectedItem);
+      await this._fetchSelectedItemData(selectedItem);
+      this._dropdownEl.remove();
+      this._inputEl.classList.remove('search__input_opened');
+      this._inputEl.value = '';
     });
   }
 
   async _fetchSelectedItemData(selectedItem) {
     const apiKey = 'e6970efb880b105e85f3508dd47a2c23';
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${selectedItem.lat}&lon=${selectedItem.lon}&appid=${apiKey}`;
-    const data = await this._api(url);
-    console.log(data);
+    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${selectedItem.lat}&lon=${selectedItem.lon}&units=metric&appid=${apiKey}`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${selectedItem.lat}&lon=${selectedItem.lon}&cnt=5&units=metric&appid=${apiKey}`;
+    const currentData = await this._api(currentUrl);
+    const forecastData = await this._api(forecastUrl);
+    console.log(currentData, forecastData);
+  }
+
+  _handleEscClose(e) {
+    if (e.key === 'Escape') {
+      this._dropdownEl.remove();
+      this._inputEl.classList.remove('search__input_opened');
+      this._inputEl.value = '';
+    }
   }
 }

@@ -5,6 +5,7 @@ export default async (url) => {
 
     return data || null;
   } catch (err) {
+    // eslint-disable-next-line no-alert
     alert(err);
     return null;
   }
