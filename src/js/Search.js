@@ -1,17 +1,7 @@
 import api from '../api/api';
-// import { renderResults } from './renderResults';
-
-const cityList = [
-  { title: 'Kirov', lat: 58.59665, lon: 49.66007 },
-  { title: 'Karaganda', lat: 49.83333, lon: 73.1658 },
-  { title: 'Kazan, Russia', lat: 55.796391, lon: 49.108891 },
-  { title: 'Kazan, Turkey', lat: 40.205166, lon: 32.681183 },
-  { title: 'Kumeny', lat: 58.10887, lon: 49.91614 },
-  { title: 'Kostroma', lat: 57.767193, lon: 40.976257 },
-];
-
-// eslint-disable-next-line no-unused-vars
-const listItem = (title) => `<button class="search__dropdown-button">${title}</button>`;
+import { renderResults } from './renderResults';
+import { cityList } from './constants';
+import debounce from '../utils/debounce';
 
 function contains(query) {
   return cityList.filter((city) => city.title.toLowerCase().includes(query.toLowerCase()));
@@ -30,17 +20,6 @@ const server = {
   },
 };
 
-function debounce(callee, timeoutMs) {
-  return function perform(...args) {
-    const previousCall = this.lastCall;
-    this.lastCall = Date.now();
-    if (previousCall && this.lastCall - previousCall <= timeoutMs) {
-      clearTimeout(this.lastCallTimer);
-    }
-    this.lastCallTimer = setTimeout(() => callee(...args), timeoutMs);
-  };
-}
-
 export default class Search {
   constructor(wrapperSelector) {
     this._api = api;
@@ -54,7 +33,6 @@ export default class Search {
     this._dropdownItemEl = this._dropdownEl.querySelector('.search__dropdown-button');
     this._results = [];
     this.debouncedHandle = debounce(this.handleInput.bind(this), 250);
-    this._handleEscClose = this._handleEscClose.bind(this);
   }
 
   init() {
@@ -63,16 +41,11 @@ export default class Search {
 
   _setEventListeners() {
     this._inputEl.addEventListener('input', this.debouncedHandle);
-  }
-
-  renderResults(dropdownEl, results) {
-    this._wrapper.append(dropdownEl);
-    dropdownEl.innerHTML = '';
-    results.forEach((item) => {
-      dropdownEl.insertAdjacentHTML(
-        'beforeend',
-        `<button class="search__dropdown-button">${item.title}</button>`,
-      );
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        this._handleClose();
+      }
     });
   }
 
@@ -88,7 +61,7 @@ export default class Search {
       this._inputEl.classList.add('search__input_opened');
     }
 
-    this.renderResults(this._dropdownEl, this._results);
+    renderResults(this._wrapper, this._dropdownEl, this._results);
 
     this._dropdownEl.addEventListener('click', async (e) => {
       const selectedItemIndex = [...this._dropdownEl.children].indexOf(e.target);
@@ -110,11 +83,9 @@ export default class Search {
     console.log(currentData, forecastData);
   }
 
-  _handleEscClose(e) {
-    if (e.key === 'Escape') {
-      this._dropdownEl.remove();
-      this._inputEl.classList.remove('search__input_opened');
-      this._inputEl.value = '';
-    }
+  _handleClose() {
+    this._dropdownEl.remove();
+    this._inputEl.classList.remove('search__input_opened');
+    this._inputEl.value = '';
   }
 }
