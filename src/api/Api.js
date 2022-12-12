@@ -1,16 +1,11 @@
-export default class Api {
-  constructor(url) {
-    this._url = url;
-  }
+export default async (url) => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
 
-  async getFetchResults() {
-    try {
-      const response = await fetch(this._url);
-      const { data } = await response.json();
-
-      return data || null;
-    } catch (err) {
-      alert(err);
-    }
+    return data || null;
+  } catch (err) {
+    alert(err);
+    return null;
   }
-}
+};
