@@ -21,29 +21,30 @@ const server = {
 };
 
 export default class Search {
-  constructor(wrapperSelector) {
-    this._api = api;
-    this._wrapper = document.querySelector(wrapperSelector);
-    this._inputEl = this._wrapper.querySelector('.search__input');
-    this._dropdownTemplate = this._wrapper.querySelector('.search__dropdown-template');
+  constructor({
+    searchWrapper,
+    searchInput,
+    dropdownTemplate,
+    dropdown,
+    dropdownItem,
+  }) {
+    this._wrapper = document.querySelector(searchWrapper);
+    this._inputEl = this._wrapper.querySelector(searchInput);
+    this._dropdownTemplate = this._wrapper.querySelector(dropdownTemplate);
     this._dropdownEl = this._dropdownTemplate
       .content
-      .querySelector('.search__dropdown')
+      .querySelector(dropdown)
       .cloneNode(true);
-    this._dropdownItemEl = this._dropdownEl.querySelector('.search__dropdown-button');
+    this._dropdownItemEl = this._dropdownEl.querySelector(dropdownItem);
     this._results = [];
     this.debouncedHandle = debounce(this.handleInput.bind(this), 250);
+    this._api = api;
   }
 
-  init() {
-    this._setEventListeners();
-  }
-
-  _setEventListeners() {
+  setEventListeners() {
     this._inputEl.addEventListener('input', this.debouncedHandle);
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
+    window.addEventListener('click', (e) => {
+      if (!e.target.contains(this._dropdownItemEl)) {
         this._handleClose();
       }
     });
@@ -75,7 +76,7 @@ export default class Search {
   }
 
   async _fetchSelectedItemData(selectedItem) {
-    const apiKey = 'e6970efb880b105e85f3508dd47a2c23';
+    const apiKey = process.env.WEATHER_API_KEY;
     const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${selectedItem.lat}&lon=${selectedItem.lon}&units=metric&appid=${apiKey}`;
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${selectedItem.lat}&lon=${selectedItem.lon}&cnt=5&units=metric&appid=${apiKey}`;
     const currentData = await this._api(currentUrl);

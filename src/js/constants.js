@@ -7,5 +7,12 @@ export const cityList = [
   { title: 'Kostroma', lat: 57.767193, lon: 40.976257 },
 ];
 
-// eslint-disable-next-line no-unused-vars
 export const listItem = (title) => `<button class="search__dropdown-button">${title}</button>`;
+
+export const selectors = {
+  searchWrapper: '.search',
+  searchInput: '.search__input',
+  dropdownTemplate: '.search__dropdown-template',
+  dropdown: '.search__dropdown',
+  dropdownItem: '.search__dropdown-button',
+};
