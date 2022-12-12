@@ -1,18 +1,7 @@
 export default class Weather {
-  constructor(
-    feelsLike,
-    humidity,
-    temp,
-    tempMax,
-    tempMin,
-    cityName,
-    visibility,
-    mainWeatherCondition,
-    weatherIcon,
-    wind,
-  ) {
-    this._feelsLike = feelsLike;
-    this._humidity = humidity;
+  constructor(data, selectors) {
+    this._feelsLike = data.feelsLike;
+    this._humidity = data.humidity;
     this._temp = temp;
     this._tempMax = tempMax;
     this._tempMin = tempMin;
@@ -20,6 +9,10 @@ export default class Weather {
     this._visibility = visibility;
     this._mainWeatherCondition = mainWeatherCondition;
     this._weatherIcon = weatherIcon;
-    this._wind = wind;
+    this._wind = wind;    
+  }
+
+  setEventListeners() {
+    this._feelsLike.textContent = 
   }
 }

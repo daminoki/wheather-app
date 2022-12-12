@@ -1,5 +1,5 @@
 import './styles/style.scss';
-import { selectors } from './js/constants';
+import { selectors } from './utils/constants';
 import Search from './js/Search';
 
 // fetch('http://api.positionstack.com/v1/forward?access_key=&query=Kazan')

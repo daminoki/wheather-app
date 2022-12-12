@@ -1,6 +1,5 @@
-import api from '../api/api';
-import { renderResults } from './renderResults';
-import { cityList } from './constants';
+import api from '../utils/api';
+import { cityList } from '../utils/constants';
 import debounce from '../utils/debounce';
 
 function contains(query) {
@@ -55,13 +54,28 @@ export default class Search {
     const { value } = target;
     const { list } = await server.search(value);
     this._results = list;
+    this._toggleInputView();
+    this._renderResults();
+  }
 
+  _toggleInputView() {
     if (!this._results.length) {
       this._inputEl.classList.remove('search__input_opened');
     } else {
       this._inputEl.classList.add('search__input_opened');
     }
-    renderResults(this._wrapper, this._dropdownEl, this._results);
+  }
+
+  _renderResults() {
+    this._wrapper.append(this._dropdownEl);
+    this._dropdownEl.innerHTML = '';
+
+    this._results.forEach((item) => {
+      this._dropdownEl.insertAdjacentHTML(
+        'beforeend',
+        `<button class="search__dropdown-button">${item.title}</button>`,
+      );
+    });
   }
 
   async _handleClick() {
