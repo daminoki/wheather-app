@@ -1,6 +1,7 @@
 import './styles/style.scss';
 import { selectors } from './utils/constants';
 import Search from './js/Search';
+import Weather from './js/Weather';
 
 // fetch('http://api.positionstack.com/v1/forward?access_key=&query=Kazan')
 //   .then((response) => response.json())
@@ -12,3 +13,6 @@ import Search from './js/Search';
 
 const search = new Search(selectors);
 search.setEventListeners();
+
+const weather = new Weather();
+weather.init();

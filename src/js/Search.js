@@ -83,18 +83,15 @@ export default class Search {
       const selectedItemIndex = [...this._dropdownEl.children].indexOf(e.target);
       const selectedItem = this._results[selectedItemIndex];
 
-      await this._fetchSelectedItemData(selectedItem);
+      const itemSelectedEvent = new CustomEvent('itemSelectedEvent', {
+        detail: {
+          selectedItem,
+        },
+      });
+      window.dispatchEvent(itemSelectedEvent);
+
       this._handleClose();
     });
-  }
-
-  async _fetchSelectedItemData(selectedItem) {
-    const apiKey = process.env.WEATHER_API_KEY;
-    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${selectedItem.lat}&lon=${selectedItem.lon}&units=metric&appid=${apiKey}`;
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${selectedItem.lat}&lon=${selectedItem.lon}&cnt=5&units=metric&appid=${apiKey}`;
-    const currentData = await this._api(currentUrl);
-    const forecastData = await this._api(forecastUrl);
-    console.log(currentData, forecastData);
   }
 
   _handleClose() {
