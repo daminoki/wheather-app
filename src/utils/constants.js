@@ -5,6 +5,7 @@ export const cityList = [
   { title: 'Kazan, Turkey', lat: 40.205166, lon: 32.681183 },
   { title: 'Kumeny', lat: 58.10887, lon: 49.91614 },
   { title: 'Kostroma', lat: 57.767193, lon: 40.976257 },
+  { title: 'Korston', lat: 43.1056, lon: 131.874 },
 ];
 
 export const listItem = (title) => `<button class="search__dropdown-button">${title}</button>`;
