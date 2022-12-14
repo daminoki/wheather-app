@@ -28,10 +28,21 @@ export default class Weather {
     this._wind = document.querySelector('.widgets__main_description-wind');
     this._humidity = document.querySelector('.widgets__main_description-humidity');
     this._feelsLike = document.querySelector('.widgets__main_description-feels-like');
-    this._maxTemp = document.querySelector('.main-information__temp-diff_highest');
-    this._minTemp = document.querySelector('.main-information__temp-diff_lowest');
+    this._weatherMain = document.querySelector('.main-information__temp-diff');
     this._sunrise = document.querySelector('.widgets__main_description-sunrise');
     this._sunset = document.querySelector('.widgets__main_description-sunset');
+
+    this._dayOne = document.querySelector('.widgets__forecast_day-one');
+    this._dayTwo = document.querySelector('.widgets__forecast_day-two');
+    this._dayThree = document.querySelector('.widgets__forecast_day-three');
+    this._dayFour = document.querySelector('.widgets__forecast_day-four');
+    this._dayFive = document.querySelector('.widgets__forecast_day-five');
+
+    this._iconDayOne = document.querySelector('.widgets__forecast_img_day-one');
+    this._iconDayTwo = document.querySelector('.widgets__forecast_img_day-two');
+    this._iconDayThree = document.querySelector('.widgets__forecast_img_day-three');
+    this._iconDayFour = document.querySelector('.widgets__forecast_img_day-four');
+    this._iconDayFive = document.querySelector('.widgets__forecast_img_day-five');
   }
 
   async init() {
@@ -47,6 +58,7 @@ export default class Weather {
 
       this._setСurrentData();
       this._setTime(selectedItem);
+      this._setForecastData(selectedItem);
       console.log(this._forecastWeatherData);
     });
   }
@@ -69,12 +81,12 @@ export default class Weather {
     this._temp.textContent = `${String(this._currentWeatherData.main.temp).split('.')[0]}°`;
     this._weatherDescription.textContent = this._currentWeatherData.weather[0].description;
     this._weatherDescription.textContent = `${this._weatherDescription.textContent[0].charAt(0).toUpperCase()}${this._weatherDescription.textContent.slice(1)}`;
+    this._weatherMain.textContent = this._currentWeatherData.weather[0].main;
+    this._weatherMain.textContent = `${this._weatherMain.textContent[0].charAt(0).toUpperCase()}${this._weatherMain.textContent.slice(1)}`;
     this._visibility.textContent = `${this._currentWeatherData.visibility / 1000} km`;
     this._wind.textContent = `${String(this._currentWeatherData.wind.speed).split('.')[0]} m/s`;
     this._humidity.textContent = `${this._currentWeatherData.main.humidity}%`;
     this._feelsLike.textContent = `${String(this._currentWeatherData.main.feels_like).split('.')[0]}°`;
-    this._maxTemp.textContent = `H: ${String(this._currentWeatherData.main.temp_max).split('.')[0]}°`;
-    this._minTemp.textContent = `L: ${String(this._currentWeatherData.main.temp_max).split('.')[0]}°`;
   }
 
   _setTime(selectedItem) {
@@ -97,5 +109,23 @@ export default class Weather {
     const sunsetTime = new Date(this._currentWeatherData.sys.sunset * 1000);
     this._sunrise.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(sunriseTime);
     this._sunset.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(sunsetTime);
+  }
+
+  _setForecastData(selectedItem) {
+    const dateOptions = {
+      weekday: 'short',
+      timeZone: selectedItem.timezone_module.name,
+    };
+    this._dayOne.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[0].dt * 1000));
+    this._dayTwo.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[8].dt * 1000));
+    this._dayThree.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[16].dt * 1000));
+    this._dayFour.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[24].dt * 1000));
+    this._dayFive.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[32].dt * 1000));
+
+    this._iconDayOne.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[0].weather[0].icon}@2x.png`;
+    this._iconDayTwo.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[8].weather[0].icon}@2x.png`;
+    this._iconDayThree.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[16].weather[0].icon}@2x.png`;
+    this._iconDayFour.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[24].weather[0].icon}@2x.png`;
+    this._iconDayFive.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[32].weather[0].icon}@2x.png`;
   }
 }

@@ -25,7 +25,7 @@
 
   &:focus,
   &:hover {
-    box-shadow: 7px 4px 10px rgb(173 216 230 / 40%);
+    box-shadow: 3px 3px 5px rgb(23 110 159 / 50%);
   }
 
   @media screen and (max-width: 768px) {
@@ -37,7 +37,7 @@
 
     &:focus,
     &:hover {
-      box-shadow: 0 8px 10px rgb(173 216 230 / 40%);
+      box-shadow: 3px 3px 5px rgb(23 110 159 / 50%);
     }
   }
 }
