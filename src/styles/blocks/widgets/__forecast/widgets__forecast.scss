@@ -1,7 +1,8 @@
 .widgets__forecast {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
+  height: 100%;
   padding: 20px;
   background-color: var(--main-widgets-bg-color);
   border-radius: 15px;

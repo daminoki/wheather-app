@@ -11,7 +11,7 @@ export default class Weather {
     this._currentWeatherUrl.searchParams.append('appid', this._apiKey);
     this._baseForecastWeatherUrl = 'https://api.openweathermap.org/data/2.5/forecast';
     this._forecastWeatherUrl = new URL(this._baseForecastWeatherUrl);
-    this._forecastWeatherUrl.searchParams.append('cnt', '5');
+    // this._forecastWeatherUrl.searchParams.append('cnt', '5');
     this._forecastWeatherUrl.searchParams.append('units', 'metric');
     this._forecastWeatherUrl.searchParams.append('appid', this._apiKey);
 
@@ -30,6 +30,8 @@ export default class Weather {
     this._feelsLike = document.querySelector('.widgets__main_description-feels-like');
     this._maxTemp = document.querySelector('.main-information__temp-diff_highest');
     this._minTemp = document.querySelector('.main-information__temp-diff_lowest');
+    this._sunrise = document.querySelector('.widgets__main_description-sunrise');
+    this._sunset = document.querySelector('.widgets__main_description-sunset');
   }
 
   async init() {
@@ -45,6 +47,7 @@ export default class Weather {
 
       this._setСurrentData();
       this._setTime(selectedItem);
+      console.log(this._forecastWeatherData);
     });
   }
 
@@ -89,5 +92,10 @@ export default class Weather {
     };
     this._date.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(fullDate);
     this._time.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(fullDate);
+
+    const sunriseTime = new Date(this._currentWeatherData.sys.sunrise * 1000);
+    const sunsetTime = new Date(this._currentWeatherData.sys.sunset * 1000);
+    this._sunrise.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(sunriseTime);
+    this._sunset.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(sunsetTime);
   }
 }
