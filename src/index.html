@@ -32,7 +32,10 @@
                     <img class="main-information__weather-icon" src="<%=require('./images/weather.svg')%>" alt="weather icon">
                     <div class="main-information__temp-wrapper">
                         <p class="main-information__temp">-17°</p>
-                        <p class="main-information__temp-diff">H: -15° L: -21°</p>
+                        <div class="main-information__temp-diff_wrapper">
+                            <p class="main-information__temp-diff main-information__temp-diff_highest">H: -15°</p>
+                            <p class="main-information__temp-diff main-information__temp-diff_lowest">L: -21°</p>
+                        </div>
                         <p class="main-information__weather-description">Partly cloudy</p>
                     </div>
                 </div>
@@ -62,21 +65,21 @@
                             <img class="widgets__main_img" src="<%=require('./images/wind-icon.svg')%>" alt="wind">
                             <p class="widgets__main_title">Wind</p>
                         </div>
-                        <p class="widgets__main_description">3 m/s</p>
+                        <p class="widgets__main_description widgets__main_description-wind">3 m/s</p>
                     </div>
                     <div class="widgets__main">
                         <div class="widgets__main_wrapper">
                             <img class="widgets__main_img" src="<%=require('./images/humidity-icon.svg')%>" alt="humidity">
                             <p class="widgets__main_title">Humidity</p>
                         </div>
-                        <p class="widgets__main_description">81%</p>
+                        <p class="widgets__main_description widgets__main_description-humidity">81%</p>
                     </div>
                     <div class="widgets__main">
                         <div class="widgets__main_wrapper">
                             <img class="widgets__main_img" src="<%=require('./images/feels-like-icon.svg')%>" alt="feels-like">
                             <p class="widgets__main_title">Feels like</p>
                         </div>
-                        <p class="widgets__main_description">-21°</p>
+                        <p class="widgets__main_description widgets__main_description-feels-like">-21°</p>
                     </div>
                 </div>
                 <div class="widgets__forecast">
