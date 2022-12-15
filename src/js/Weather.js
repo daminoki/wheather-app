@@ -55,6 +55,24 @@ export default class Weather {
     this._lowTempDayThree = document.querySelector('.widgets__forecast_temp_l_day-three');
     this._lowTempDayFour = document.querySelector('.widgets__forecast_temp_l_day-four');
     this._lowTempDayFive = document.querySelector('.widgets__forecast_temp_l_day-five');
+
+    this._hourIconOne = document.querySelector('.hourly-forecast__icon_one');
+    this._hourIconTwo = document.querySelector('.hourly-forecast__icon_two');
+    this._hourIconThree = document.querySelector('.hourly-forecast__icon_three');
+    this._hourIconFour = document.querySelector('.hourly-forecast__icon_four');
+    this._hourIconFive = document.querySelector('.hourly-forecast__icon_five');
+    this._hourIconSix = document.querySelector('.hourly-forecast__icon_six');
+    this._hourIconSeven = document.querySelector('.hourly-forecast__icon_seven');
+    this._hourIconEight = document.querySelector('.hourly-forecast__icon_eight');
+
+    this._hourTempOne = document.querySelector('.hourly-forecast__temp_one');
+    this._hourTempTwo = document.querySelector('.hourly-forecast__temp_two');
+    this._hourTempThree = document.querySelector('.hourly-forecast__temp_three');
+    this._hourTempFour = document.querySelector('.hourly-forecast__temp_four');
+    this._hourTempFive = document.querySelector('.hourly-forecast__temp_five');
+    this._hourTempSix = document.querySelector('.hourly-forecast__temp_six');
+    this._hourTempSeven = document.querySelector('.hourly-forecast__temp_seven');
+    this._hourTempEight = document.querySelector('.hourly-forecast__temp_eight');
   }
 
   async init() {
@@ -71,7 +89,7 @@ export default class Weather {
       this._setСurrentData();
       this._setTime(selectedItem);
       this._setForecastData(selectedItem);
-      console.log(this._forecastWeatherData, this._lowTempDayOne);
+      console.log(this._forecastWeatherData);
     });
   }
 
@@ -151,5 +169,23 @@ export default class Weather {
     this._lowTempDayThree.textContent = `${String(this._forecastWeatherData.list[16].main.temp).split('.')[0]}°`;
     this._lowTempDayFour.textContent = `${String(this._forecastWeatherData.list[24].main.temp).split('.')[0]}°`;
     this._lowTempDayFive.textContent = `${String(this._forecastWeatherData.list[32].main.temp).split('.')[0]}°`;
+
+    this._hourIconOne.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[0].weather[0].icon}@2x.png`;
+    this._hourIconTwo.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[1].weather[0].icon}@2x.png`;
+    this._hourIconThree.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[2].weather[0].icon}@2x.png`;
+    this._hourIconFour.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[3].weather[0].icon}@2x.png`;
+    this._hourIconFive.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[4].weather[0].icon}@2x.png`;
+    this._hourIconSix.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[5].weather[0].icon}@2x.png`;
+    this._hourIconSeven.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[6].weather[0].icon}@2x.png`;
+    this._hourIconEight.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[7].weather[0].icon}@2x.png`;
+
+    this._hourTempOne.textContent = `${String(this._forecastWeatherData.list[0].main.temp).split('.')[0]}°`;
+    this._hourTempTwo.textContent = `${String(this._forecastWeatherData.list[1].main.temp).split('.')[0]}°`;
+    this._hourTempThree.textContent = `${String(this._forecastWeatherData.list[2].main.temp).split('.')[0]}°`;
+    this._hourTempFour.textContent = `${String(this._forecastWeatherData.list[3].main.temp).split('.')[0]}°`;
+    this._hourTempFive.textContent = `${String(this._forecastWeatherData.list[4].main.temp).split('.')[0]}°`;
+    this._hourTempSix.textContent = `${String(this._forecastWeatherData.list[5].main.temp).split('.')[0]}°`;
+    this._hourTempSeven.textContent = `${String(this._forecastWeatherData.list[6].main.temp).split('.')[0]}°`;
+    this._hourTempEight.textContent = `${String(this._forecastWeatherData.list[7].main.temp).split('.')[0]}°`;
   }
 }
