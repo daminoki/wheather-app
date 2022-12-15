@@ -1,0 +1,39 @@
+.hourly-forecast {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding: 20px;
+  overflow: hidden;
+  background: inherit;
+  border-radius: 15px;
+  box-shadow: 0 0 1rem 0 rgb(0 0 0 / 15%);
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 3px 3px 5px rgb(23 110 159 / 50%);
+  }
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -20px;
+    background: inherit;
+    box-shadow: inset 0 0 2000px rgb(255 255 255 / 30%);
+    filter: blur(10px);
+    content: "";
+  }
+
+  @media screen and (max-width: 768px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 15px;
+  }
+}
