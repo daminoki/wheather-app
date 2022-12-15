@@ -43,6 +43,18 @@ export default class Weather {
     this._iconDayThree = document.querySelector('.widgets__forecast_img_day-three');
     this._iconDayFour = document.querySelector('.widgets__forecast_img_day-four');
     this._iconDayFive = document.querySelector('.widgets__forecast_img_day-five');
+
+    this._tempDayOne = document.querySelector('.widgets__forecast_temp_day-one');
+    this._tempDayTwo = document.querySelector('.widgets__forecast_temp_day-two');
+    this._tempDayThree = document.querySelector('.widgets__forecast_temp_day-three');
+    this._tempDayFour = document.querySelector('.widgets__forecast_temp_day-four');
+    this._tempDayFive = document.querySelector('.widgets__forecast_temp_day-five');
+
+    this._lowTempDayOne = document.querySelector('.widgets__forecast_temp_l_day-one');
+    this._lowTempDayTwo = document.querySelector('.widgets__forecast_temp_l_day-two');
+    this._lowTempDayThree = document.querySelector('.widgets__forecast_temp_l_day-three');
+    this._lowTempDayFour = document.querySelector('.widgets__forecast_temp_l_day-four');
+    this._lowTempDayFive = document.querySelector('.widgets__forecast_temp_l_day-five');
   }
 
   async init() {
@@ -59,7 +71,7 @@ export default class Weather {
       this._setСurrentData();
       this._setTime(selectedItem);
       this._setForecastData(selectedItem);
-      console.log(this._forecastWeatherData);
+      console.log(this._forecastWeatherData, this._lowTempDayOne);
     });
   }
 
@@ -83,7 +95,7 @@ export default class Weather {
     this._weatherDescription.textContent = `${this._weatherDescription.textContent[0].charAt(0).toUpperCase()}${this._weatherDescription.textContent.slice(1)}`;
     this._weatherMain.textContent = this._currentWeatherData.weather[0].main;
     this._weatherMain.textContent = `${this._weatherMain.textContent[0].charAt(0).toUpperCase()}${this._weatherMain.textContent.slice(1)}`;
-    this._visibility.textContent = `${this._currentWeatherData.visibility / 1000} km`;
+    this._visibility.textContent = `${Math.round(this._currentWeatherData.visibility / 1000)} km`;
     this._wind.textContent = `${String(this._currentWeatherData.wind.speed).split('.')[0]} m/s`;
     this._humidity.textContent = `${this._currentWeatherData.main.humidity}%`;
     this._feelsLike.textContent = `${String(this._currentWeatherData.main.feels_like).split('.')[0]}°`;
@@ -127,5 +139,17 @@ export default class Weather {
     this._iconDayThree.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[16].weather[0].icon}@2x.png`;
     this._iconDayFour.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[24].weather[0].icon}@2x.png`;
     this._iconDayFive.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[32].weather[0].icon}@2x.png`;
+
+    this._tempDayOne.textContent = `${String(this._forecastWeatherData.list[0].weather[0].main)}`;
+    this._tempDayTwo.textContent = `${String(this._forecastWeatherData.list[8].weather[0].main)}`;
+    this._tempDayThree.textContent = `${String(this._forecastWeatherData.list[16].weather[0].main)}`;
+    this._tempDayFour.textContent = `${String(this._forecastWeatherData.list[24].weather[0].main)}`;
+    this._tempDayFive.textContent = `${String(this._forecastWeatherData.list[32].weather[0].main)}`;
+
+    this._lowTempDayOne.textContent = `${String(this._forecastWeatherData.list[0].main.temp).split('.')[0]}°`;
+    this._lowTempDayTwo.textContent = `${String(this._forecastWeatherData.list[8].main.temp).split('.')[0]}°`;
+    this._lowTempDayThree.textContent = `${String(this._forecastWeatherData.list[16].main.temp).split('.')[0]}°`;
+    this._lowTempDayFour.textContent = `${String(this._forecastWeatherData.list[24].main.temp).split('.')[0]}°`;
+    this._lowTempDayFive.textContent = `${String(this._forecastWeatherData.list[32].main.temp).split('.')[0]}°`;
   }
 }
