@@ -60,6 +60,9 @@ export default class Search {
 
   _toggleInputView() {
     if (!this._results.length) {
+      // думаю лучше убрать такое указание селекторов,
+      // тк class Search должен брать все селекторы через параметры с целью переиспользования
+      // где исправить: _toggleInputView, _handleClose, _renderResults
       this._inputEl.classList.remove('search__input_opened');
     } else {
       this._inputEl.classList.add('search__input_opened');
