@@ -158,6 +158,7 @@ export default class Weather {
     // туда будут прокидываться dateOptions и дата и возвращаться отформатированная дата
     // можно будет переиспользовать тут и внутри _setTime()
 
+    // TODO: refactor this
     this._dayOne.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[0].dt * 1000));
     this._dayTwo.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[8].dt * 1000));
     this._dayThree.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[16].dt * 1000));
