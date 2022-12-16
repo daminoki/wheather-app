@@ -26,9 +26,13 @@ export default class Search {
     dropdownTemplate,
     dropdown,
     dropdownItem,
+    dropdownItemClass,
+    inputOpenedClass,
   }) {
     this._wrapper = document.querySelector(searchWrapper);
     this._inputEl = this._wrapper.querySelector(searchInput);
+    this._dropdownItemClass = dropdownItemClass;
+    this._inputOpenedClass = inputOpenedClass;
     this._dropdownTemplate = this._wrapper.querySelector(dropdownTemplate);
     this._dropdownEl = this._dropdownTemplate
       .content
@@ -60,12 +64,9 @@ export default class Search {
 
   _toggleInputView() {
     if (!this._results.length) {
-      // думаю лучше убрать такое указание селекторов,
-      // тк class Search должен брать все селекторы через параметры с целью переиспользования
-      // где исправить: _toggleInputView, _handleClose, _renderResults
-      this._inputEl.classList.remove('search__input_opened');
+      this._inputEl.classList.remove(this._inputOpenedClass);
     } else {
-      this._inputEl.classList.add('search__input_opened');
+      this._inputEl.classList.add(this._inputOpenedClass);
     }
   }
 
@@ -76,7 +77,7 @@ export default class Search {
     this._results.forEach((item) => {
       this._dropdownEl.insertAdjacentHTML(
         'beforeend',
-        `<button class="search__dropdown-button">${item.title}</button>`,
+        `<button class=${this._dropdownItemClass}>${item.title}</button>`,
       );
     });
   }
@@ -99,7 +100,7 @@ export default class Search {
 
   _handleClose() {
     this._dropdownEl.remove();
-    this._inputEl.classList.remove('search__input_opened');
+    this._inputEl.classList.remove(this._inputOpenedClass);
     this._inputEl.value = '';
   }
 }

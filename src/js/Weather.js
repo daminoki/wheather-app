@@ -3,6 +3,7 @@ import api from '../utils/api';
 export default class Weather {
   constructor() {
     this._api = api;
+    this._selectedItem = null;
 
     this._apiKey = process.env.WEATHER_API_KEY;
     this._baseCurrentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
@@ -77,127 +78,97 @@ export default class Weather {
   async init() {
     window.addEventListener('itemSelectedEvent', async (e) => {
       const { selectedItem } = e.detail;
-      // думаю удобнее будет здесь записать selectedItem в свойство класса
-      // this._selectedItem (по умолчанию null) = selectedItem
-      // чтобы не нужно было постоянно прокидывать его как параметр методов
+      this._selectedItem = selectedItem;
 
       await Promise.all(
         [
-          this._fetchCurrentWeatherData(selectedItem),
-          this._fetchForecastWeatherData(selectedItem),
+          this._fetchCurrentWeatherData(),
+          this._fetchForecastWeatherData(),
         ],
       );
 
       this._setСurrentData();
-      this._setTime(selectedItem);
-      this._setForecastData(selectedItem);
-      console.log(this._forecastWeatherData);
+      this._setTime();
+      this._setForecastData();
+      console.log(this._currentWeatherData, this._forecastWeatherData);
     });
   }
 
-  async _fetchCurrentWeatherData(selectedItem) {
-    this._currentWeatherUrl.searchParams.set('lat', selectedItem.lat);
-    this._currentWeatherUrl.searchParams.set('lon', selectedItem.lon);
+  async _fetchCurrentWeatherData() {
+    this._currentWeatherUrl.searchParams.set('lat', this._selectedItem.lat);
+    this._currentWeatherUrl.searchParams.set('lon', this._selectedItem.lon);
     this._currentWeatherData = await this._api(this._currentWeatherUrl);
   }
 
-  async _fetchForecastWeatherData(selectedItem) {
-    this._forecastWeatherUrl.searchParams.set('lat', selectedItem.lat);
-    this._forecastWeatherUrl.searchParams.set('lon', selectedItem.lon);
+  async _fetchForecastWeatherData() {
+    this._forecastWeatherUrl.searchParams.set('lat', this._selectedItem.lat);
+    this._forecastWeatherUrl.searchParams.set('lon', this._selectedItem.lon);
     this._forecastWeatherData = await this._api(this._forecastWeatherUrl);
   }
 
-  _setСurrentData() {
-    // чтобы постоянно не писать длинные this._currentWeatherData.somePropertyName
-    // можно использовать деструктуризацию
-    // например:
-    // const {
-    //   name,
-    //   weather,
-    //   main,
-    //   visibility,
-    //   wind,
-    // } = this._currentWeatherData;
-    // а уже потом сразу использовать эти константы - this._cityName.textContent = name;
-    // или this._humidity.textContent = `${main.humidity}%`;
-    // получается намного проще для восприятия кода и удобнее что-то менять потом
-
-    // то же самое касается this._currentWeatherData.weather[0].description;
-    // вместо этого можно написать:
-    // const [{ description }] = weather
-    // т.e. деструктурируем массив, беря из него первый элемент,
-    // и тут же деструктурируем первый элемент,
-    // беря из него поле description
-    // и тогда вместо
-    // this._weatherDescription.textContent = this._currentWeatherData.weather[0].description;
-    // будет
-    // this._weatherDescription.textContent = description;
-    // (вместе с description надо еще деструктурировать icon)
-
-    this._cityName.textContent = this._currentWeatherData.name;
-    // `http://openweathermap.org/img/wn/${....}@2x.png` - эта часть кода всегда одинаковая
-    // и постоянно повторяется в коде в одном виде, поэтому
-    // можно создать метод, в котором будет возвращаться эта строка, куда через параметры
-    // будет вставлены конкретные данные для полного адреса картинки
-    // это тоже намного упростит восприятие кода и его правки в будущем
-    // например чтобы поменять url достаточно будет сделать это в одном месте в том методе,
-    // а не в 20 разных местах разбросанных по классу
-    this._weatherIcon.src = `http://openweathermap.org/img/wn/${this._currentWeatherData.weather[0].icon}@2x.png`;
-    // тут достаточно использовать Math.round() или toFixed()
-    this._temp.textContent = `${String(this._currentWeatherData.main.temp).split('.')[0]}°`;
-    this._weatherDescription.textContent = this._currentWeatherData.weather[0].description;
-    // строку ниже можно в принципе удалить и сделать первую заглавную букву через CSS
-    this._weatherDescription.textContent = `${this._weatherDescription.textContent[0].charAt(0).toUpperCase()}${this._weatherDescription.textContent.slice(1)}`;
-    this._weatherMain.textContent = this._currentWeatherData.weather[0].main;
-    // аналогично - строку ниже можно в принципе удалить и сделать первую заглавную букву через CSS
-    this._weatherMain.textContent = `${this._weatherMain.textContent[0].charAt(0).toUpperCase()}${this._weatherMain.textContent.slice(1)}`;
-    this._visibility.textContent = `${Math.round(this._currentWeatherData.visibility / 1000)} km`;
-    // аналогично - тут достаточно использовать Math.round() или toFixed()
-    this._wind.textContent = `${String(this._currentWeatherData.wind.speed).split('.')[0]} m/s`;
-    this._humidity.textContent = `${this._currentWeatherData.main.humidity}%`;
-    // аналогично - тут достаточно использовать Math.round() или toFixed()
-    this._feelsLike.textContent = `${String(this._currentWeatherData.main.feels_like).split('.')[0]}°`;
+  static _getUrl(icon) {
+    return `http://openweathermap.org/img/wn/${icon}@2x.png`;
   }
 
-  _setTime(selectedItem) {
-    // тут все отлично
-    const fullDate = new Date(this._currentWeatherData.dt * 1000);
+  _setСurrentData() {
+    const {
+      name,
+      weather,
+      main: { temp, humidity, feels_like },
+      visibility,
+      wind: { speed },
+    } = this._currentWeatherData;
 
-    // можно сделать еще лучше, если разбить код на связанные блоки:
+    const [{
+      description,
+      icon,
+    }] = weather;
 
-    // const dateOptions = {}
-    // this._date.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(fullDate);
-    //
-    // const timeOptions = {}
-    // this._time.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(fullDate);
+    this._cityName.textContent = name;
+    this._weatherIcon.src = Weather._getUrl(icon);
+    this._temp.textContent = `${Math.round(temp)}°`;
+    this._weatherDescription.textContent = description;
+    this._weatherDescription.textContent = `${this._weatherDescription.textContent[0].charAt(0).toUpperCase()}${this._weatherDescription.textContent.slice(1)}`;
+    this._weatherMain.textContent = this._currentWeatherData.weather[0].main;
+    this._weatherMain.textContent = `${this._weatherMain.textContent[0].charAt(0).toUpperCase()}${this._weatherMain.textContent.slice(1)}`;
+    this._visibility.textContent = `${Math.round(visibility / 1000)} km`;
+    this._wind.textContent = `${Math.round(speed)} m/s`;
+    this._humidity.textContent = `${humidity}%`;
+    this._feelsLike.textContent = `${Math.round(feels_like)}°`;
+  }
 
-    // это одна из хороших практик, когда переменные объявляются радом с местом своего использования
+  _setTime() {
+    const {
+      dt,
+      sys: { sunrise, sunset },
+    } = this._currentWeatherData;
+
+    const fullDate = new Date(dt * 1000);
+    const sunriseTime = new Date(sunrise * 1000);
+    const sunsetTime = new Date(sunset * 1000);
+
     const dateOptions = {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
-      timeZone: selectedItem.timezone_module.name,
+      timeZone: this._selectedItem.timezone_module.name,
     };
+    this._date.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(fullDate);
+
     const timeOptions = {
       hour: 'numeric',
       minute: 'numeric',
-      timeZone: selectedItem.timezone_module.name,
+      timeZone: this._selectedItem.timezone_module.name,
     };
-    // en-US или ru-Ru в итоге?
-    this._date.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(fullDate);
     this._time.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(fullDate);
-
-    // это можно вынести в отдельный метод, но если оставить здесь, то в целом тоже норм
-    const sunriseTime = new Date(this._currentWeatherData.sys.sunrise * 1000);
-    const sunsetTime = new Date(this._currentWeatherData.sys.sunset * 1000);
     this._sunrise.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(sunriseTime);
     this._sunset.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(sunsetTime);
   }
 
-  _setForecastData(selectedItem) {
+  _setForecastData() {
     const dateOptions = {
       weekday: 'short',
-      timeZone: selectedItem.timezone_module.name,
+      timeZone: this._selectedItem.timezone_module.name,
     };
 
     // тоже было бы неплохо использовать деструктуризацию, чтобы сразу получить list или другие поля
