@@ -1,0 +1,8 @@
+.wrapper {
+  display: none;
+
+  &_opened {
+    display: flex;
+    flex-direction: column;
+  }
+}

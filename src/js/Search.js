@@ -28,6 +28,7 @@ export default class Search {
     dropdownItem,
     dropdownItemClass,
     inputOpenedClass,
+    wrapper,
   }) {
     this._wrapper = document.querySelector(searchWrapper);
     this._inputEl = this._wrapper.querySelector(searchInput);
@@ -42,6 +43,7 @@ export default class Search {
     this._results = [];
     this._debouncedHandle = debounce(this._handleInput.bind(this), 250);
     this._api = api;
+    this._fullWrapper = document.querySelector(wrapper);
   }
 
   setEventListeners() {
@@ -95,6 +97,7 @@ export default class Search {
       window.dispatchEvent(itemSelectedEvent);
 
       this._handleClose();
+      this._fullWrapper.classList.add('wrapper_opened');
     });
   }
 

@@ -80,12 +80,14 @@ export default class Weather {
       const { selectedItem } = e.detail;
       this._selectedItem = selectedItem;
 
+      loading true
       await Promise.all(
         [
           this._fetchCurrentWeatherData(),
           this._fetchForecastWeatherData(),
         ],
       );
+      loading false
 
       this._setСurrentData();
       this._setTime();

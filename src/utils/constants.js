@@ -67,4 +67,5 @@ export const selectors = {
   dropdownItem: '.search__dropdown-button',
   dropdownItemClass: 'search__dropdown-button',
   inputOpenedClass: 'search__input_opened',
+  wrapper: '.wrapper',
 };
