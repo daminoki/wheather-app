@@ -52,19 +52,27 @@ export default class Weather {
       const { selectedItem } = e.detail;
       this._selectedItem = selectedItem;
 
+      // create method toggleLoader to toggle load_opened class
       const loader = document.querySelector('.load');
       const wrapper = document.querySelector('.wrapper');
+
+      // not opened, but display/show
       if (!wrapper.classList.contains('wrapper_opened')) {
         loader.classList.add('load_opened');
       }
+
       await Promise.all(
         [
           this._fetchCurrentWeatherData(),
           this._fetchForecastWeatherData(),
         ],
       );
+
+      // not opened, but display/show
       loader.classList.remove('load_opened');
+
       if (!this._currentWeatherData || !this._forecastWeatherData) return;
+
       wrapper.classList.add('wrapper_opened');
 
       this._setСurrentData();
@@ -107,8 +115,10 @@ export default class Weather {
     this._weatherIcon.src = Weather._getUrl(icon);
     this._temp.textContent = `${Math.round(temp)}°`;
     this._weatherDescription.textContent = description;
+    // сделать преобразование через CSS
     this._weatherDescription.textContent = `${this._weatherDescription.textContent[0].charAt(0).toUpperCase()}${this._weatherDescription.textContent.slice(1)}`;
     this._weatherMain.textContent = this._currentWeatherData.weather[0].main;
+    // сделать преобразование через CSS
     this._weatherMain.textContent = `${this._weatherMain.textContent[0].charAt(0).toUpperCase()}${this._weatherMain.textContent.slice(1)}`;
     this._visibility.textContent = `${Math.round(visibility / 1000)} km`;
     this._wind.textContent = `${Math.round(speed)} m/s`;
@@ -158,7 +168,7 @@ export default class Weather {
     // туда будут прокидываться dateOptions и дата и возвращаться отформатированная дата
     // можно будет переиспользовать тут и внутри _setTime()
 
-    // TODO: refactor this
+    // TODO: refactor this (to utils)
     this._dayOne.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[0].dt * 1000));
     this._dayTwo.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[8].dt * 1000));
     this._dayThree.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[16].dt * 1000));
@@ -183,7 +193,7 @@ export default class Weather {
     });
 
     let tempIndex = 0;
-    this._tempnDayElements = [...this._tempDayElements].map((item, index) => {
+    this._tempDayElements = [...this._tempDayElements].map((item, index) => {
       const itemName = item;
       if (index !== 0) tempIndex = tempIndex + 8;
       itemName.textContent = `${Math.round(list[tempIndex].main.temp)}°`;
