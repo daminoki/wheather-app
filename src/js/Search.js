@@ -97,7 +97,6 @@ export default class Search {
       window.dispatchEvent(itemSelectedEvent);
 
       this._handleClose();
-      this._fullWrapper.classList.add('wrapper_opened');
     });
   }
 

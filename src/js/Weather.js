@@ -80,19 +80,24 @@ export default class Weather {
       const { selectedItem } = e.detail;
       this._selectedItem = selectedItem;
 
-      loading true
+      const loader = document.querySelector('.load');
+      const wrapper = document.querySelector('.wrapper');
+      if (!wrapper.classList.contains('wrapper_opened')) {
+        loader.classList.add('load_opened');
+      }
       await Promise.all(
         [
           this._fetchCurrentWeatherData(),
           this._fetchForecastWeatherData(),
         ],
       );
-      loading false
+      loader.classList.remove('load_opened');
+      if (!this._currentWeatherData || !this._forecastWeatherData) return;
+      wrapper.classList.add('wrapper_opened');
 
       this._setСurrentData();
       this._setTime();
       this._setForecastData();
-      console.log(this._currentWeatherData, this._forecastWeatherData);
     });
   }
 
