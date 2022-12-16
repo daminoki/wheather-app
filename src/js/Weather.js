@@ -1,3 +1,4 @@
+/* eslint-disable operator-assignment */
 import api from '../utils/api';
 
 export default class Weather {
@@ -38,41 +39,12 @@ export default class Weather {
     this._dayFour = document.querySelector('.widgets__forecast_day-four');
     this._dayFive = document.querySelector('.widgets__forecast_day-five');
 
-    this._iconDayOne = document.querySelector('.widgets__forecast_img_day-one');
-    this._iconDayTwo = document.querySelector('.widgets__forecast_img_day-two');
-    this._iconDayThree = document.querySelector('.widgets__forecast_img_day-three');
-    this._iconDayFour = document.querySelector('.widgets__forecast_img_day-four');
-    this._iconDayFive = document.querySelector('.widgets__forecast_img_day-five');
+    this._iconDayElements = document.querySelectorAll('.widgets__forecast_img');
+    this._descriptionDayElements = document.querySelectorAll('.widgets__forecast_temp');
+    this._tempDayElements = document.querySelectorAll('.widgets__forecast_temp_l');
 
-    this._tempDayOne = document.querySelector('.widgets__forecast_temp_day-one');
-    this._tempDayTwo = document.querySelector('.widgets__forecast_temp_day-two');
-    this._tempDayThree = document.querySelector('.widgets__forecast_temp_day-three');
-    this._tempDayFour = document.querySelector('.widgets__forecast_temp_day-four');
-    this._tempDayFive = document.querySelector('.widgets__forecast_temp_day-five');
-
-    this._lowTempDayOne = document.querySelector('.widgets__forecast_temp_l_day-one');
-    this._lowTempDayTwo = document.querySelector('.widgets__forecast_temp_l_day-two');
-    this._lowTempDayThree = document.querySelector('.widgets__forecast_temp_l_day-three');
-    this._lowTempDayFour = document.querySelector('.widgets__forecast_temp_l_day-four');
-    this._lowTempDayFive = document.querySelector('.widgets__forecast_temp_l_day-five');
-
-    this._hourIconOne = document.querySelector('.hourly-forecast__icon_one');
-    this._hourIconTwo = document.querySelector('.hourly-forecast__icon_two');
-    this._hourIconThree = document.querySelector('.hourly-forecast__icon_three');
-    this._hourIconFour = document.querySelector('.hourly-forecast__icon_four');
-    this._hourIconFive = document.querySelector('.hourly-forecast__icon_five');
-    this._hourIconSix = document.querySelector('.hourly-forecast__icon_six');
-    this._hourIconSeven = document.querySelector('.hourly-forecast__icon_seven');
-    this._hourIconEight = document.querySelector('.hourly-forecast__icon_eight');
-
-    this._hourTempOne = document.querySelector('.hourly-forecast__temp_one');
-    this._hourTempTwo = document.querySelector('.hourly-forecast__temp_two');
-    this._hourTempThree = document.querySelector('.hourly-forecast__temp_three');
-    this._hourTempFour = document.querySelector('.hourly-forecast__temp_four');
-    this._hourTempFive = document.querySelector('.hourly-forecast__temp_five');
-    this._hourTempSix = document.querySelector('.hourly-forecast__temp_six');
-    this._hourTempSeven = document.querySelector('.hourly-forecast__temp_seven');
-    this._hourTempEight = document.querySelector('.hourly-forecast__temp_eight');
+    this._hourTempElements = document.querySelectorAll('.hourly-forecast__temp');
+    this._hourIconElements = document.querySelectorAll('.hourly-forecast__icon');
   }
 
   async init() {
@@ -178,68 +150,55 @@ export default class Weather {
       timeZone: this._selectedItem.timezone_module.name,
     };
 
-    // тоже было бы неплохо использовать деструктуризацию, чтобы сразу получить list или другие поля
-    // и не писать длинные this._forecastWeatherData.list... и тд
+    const {
+      list,
+    } = this._forecastWeatherData;
 
     // пожалуй есть смысл вынести new Intl.DateTimeFormat() в отдельный метод
     // туда будут прокидываться dateOptions и дата и возвращаться отформатированная дата
     // можно будет переиспользовать тут и внутри _setTime()
 
-    this._dayOne.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[0].dt * 1000));
-    this._dayTwo.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[8].dt * 1000));
-    this._dayThree.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[16].dt * 1000));
-    this._dayFour.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[24].dt * 1000));
-    this._dayFive.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(this._forecastWeatherData.list[32].dt * 1000));
+    this._dayOne.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[0].dt * 1000));
+    this._dayTwo.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[8].dt * 1000));
+    this._dayThree.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[16].dt * 1000));
+    this._dayFour.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[24].dt * 1000));
+    this._dayFive.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[32].dt * 1000));
 
-    this._iconDayOne.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[0].weather[0].icon}@2x.png`;
-    this._iconDayTwo.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[8].weather[0].icon}@2x.png`;
-    this._iconDayThree.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[16].weather[0].icon}@2x.png`;
-    this._iconDayFour.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[24].weather[0].icon}@2x.png`;
-    this._iconDayFive.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[32].weather[0].icon}@2x.png`;
+    let itemIndex = 0;
 
-    // зачем приводится к строке?
-    this._tempDayOne.textContent = `${String(this._forecastWeatherData.list[0].weather[0].main)}`;
-    this._tempDayTwo.textContent = `${String(this._forecastWeatherData.list[8].weather[0].main)}`;
-    this._tempDayThree.textContent = `${String(this._forecastWeatherData.list[16].weather[0].main)}`;
-    this._tempDayFour.textContent = `${String(this._forecastWeatherData.list[24].weather[0].main)}`;
-    this._tempDayFive.textContent = `${String(this._forecastWeatherData.list[32].weather[0].main)}`;
+    this._iconDayElements = [...this._iconDayElements].map((item, index) => {
+      const itemName = item;
+      if (index !== 0) itemIndex = itemIndex + 8;
+      itemName.src = Weather._getUrl(list[itemIndex].weather[0].icon);
+      return itemName;
+    });
 
-    // лучше использовать Math.round() или toFixed()
-    this._lowTempDayOne.textContent = `${String(this._forecastWeatherData.list[0].main.temp).split('.')[0]}°`;
-    this._lowTempDayTwo.textContent = `${String(this._forecastWeatherData.list[8].main.temp).split('.')[0]}°`;
-    this._lowTempDayThree.textContent = `${String(this._forecastWeatherData.list[16].main.temp).split('.')[0]}°`;
-    this._lowTempDayFour.textContent = `${String(this._forecastWeatherData.list[24].main.temp).split('.')[0]}°`;
-    this._lowTempDayFive.textContent = `${String(this._forecastWeatherData.list[32].main.temp).split('.')[0]}°`;
+    let descriptionIndex = 0;
+    this._descriptionDayElements = [...this._descriptionDayElements].map((item, index) => {
+      const itemName = item;
+      if (index !== 0) descriptionIndex = descriptionIndex + 8;
+      itemName.textContent = list[descriptionIndex].weather[0].main;
+      return itemName;
+    });
 
-    // можно сделать намного проще и удобнее, если взять из html все hourIcon и hourTemp элементы,
-    // а затем пройтись по ним forEach и для каждого вставить src и textContent
-    // используя индекс текущего элемента, чтобы взять соответствующие данные
-    // например:
-    // this._hourTempElements = document.querySelectorAll('.hourly-forecast__temp');
-    // this._hourTempElements.forEach((item, index) => {
-    //   item.textContent = list[index].main.temp
-    // });
+    let tempIndex = 0;
+    this._tempnDayElements = [...this._tempDayElements].map((item, index) => {
+      const itemName = item;
+      if (index !== 0) tempIndex = tempIndex + 8;
+      itemName.textContent = `${Math.round(list[tempIndex].main.temp)}°`;
+      return itemName;
+    });
 
-    // list[0], list[8], list[16]... тоже надо переделать на проход циклом
-    this._hourIconOne.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[0].weather[0].icon}@2x.png`;
-    this._hourIconTwo.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[1].weather[0].icon}@2x.png`;
-    this._hourIconThree.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[2].weather[0].icon}@2x.png`;
-    this._hourIconFour.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[3].weather[0].icon}@2x.png`;
-    this._hourIconFive.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[4].weather[0].icon}@2x.png`;
-    this._hourIconSix.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[5].weather[0].icon}@2x.png`;
-    this._hourIconSeven.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[6].weather[0].icon}@2x.png`;
-    this._hourIconEight.src = `http://openweathermap.org/img/wn/${this._forecastWeatherData.list[7].weather[0].icon}@2x.png`;
+    this._hourTempElements = [...this._hourTempElements].map((item, index) => {
+      const itemName = item;
+      itemName.textContent = `${Math.round(list[index].main.temp)}°`;
+      return itemName;
+    });
 
-    // лучше использовать Math.round() или toFixed()
-    this._hourTempOne.textContent = `${String(this._forecastWeatherData.list[0].main.temp).split('.')[0]}°`;
-    this._hourTempTwo.textContent = `${String(this._forecastWeatherData.list[1].main.temp).split('.')[0]}°`;
-    this._hourTempThree.textContent = `${String(this._forecastWeatherData.list[2].main.temp).split('.')[0]}°`;
-    this._hourTempFour.textContent = `${String(this._forecastWeatherData.list[3].main.temp).split('.')[0]}°`;
-    this._hourTempFive.textContent = `${String(this._forecastWeatherData.list[4].main.temp).split('.')[0]}°`;
-    this._hourTempSix.textContent = `${String(this._forecastWeatherData.list[5].main.temp).split('.')[0]}°`;
-    this._hourTempSeven.textContent = `${String(this._forecastWeatherData.list[6].main.temp).split('.')[0]}°`;
-    this._hourTempEight.textContent = `${String(this._forecastWeatherData.list[7].main.temp).split('.')[0]}°`;
+    this._hourIconElements = [...this._hourIconElements].map((item, index) => {
+      const itemName = item;
+      itemName.src = Weather._getUrl(list[index].weather[0].icon);
+      return itemName;
+    });
   }
-
-  // молодец, проделана огромная работа!! (тьмок)
 }
