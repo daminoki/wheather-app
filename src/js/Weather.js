@@ -112,6 +112,8 @@ export default class Weather {
     }] = weather;
 
     this._cityName.textContent = name;
+    const previousRequest = document.querySelector('.previous-request__city-name');
+    previousRequest.textContent = this._cityName.textContent;
     this._weatherIcon.src = Weather._getUrl(icon);
     this._temp.textContent = `${Math.round(temp)}°`;
     this._weatherDescription.textContent = description;
