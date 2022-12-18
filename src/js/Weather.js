@@ -112,15 +112,11 @@ export default class Weather {
     }] = weather;
 
     this._cityName.textContent = name;
-    const previousRequest = document.querySelector('.previous-request__city-name');
-    previousRequest.textContent = this._cityName.textContent;
     this._weatherIcon.src = Weather._getUrl(icon);
     this._temp.textContent = `${Math.round(temp)}°`;
     this._weatherDescription.textContent = description;
-    // сделать преобразование через CSS
     this._weatherDescription.textContent = `${this._weatherDescription.textContent[0].charAt(0).toUpperCase()}${this._weatherDescription.textContent.slice(1)}`;
     this._weatherMain.textContent = this._currentWeatherData.weather[0].main;
-    // сделать преобразование через CSS
     this._weatherMain.textContent = `${this._weatherMain.textContent[0].charAt(0).toUpperCase()}${this._weatherMain.textContent.slice(1)}`;
     this._visibility.textContent = `${Math.round(visibility / 1000)} km`;
     this._wind.textContent = `${Math.round(speed)} m/s`;
@@ -170,7 +166,7 @@ export default class Weather {
     // туда будут прокидываться dateOptions и дата и возвращаться отформатированная дата
     // можно будет переиспользовать тут и внутри _setTime()
 
-    // TODO: refactor this (to utils)
+    // TODO: refactor this (create function (utils))
     this._dayOne.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[0].dt * 1000));
     this._dayTwo.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[8].dt * 1000));
     this._dayThree.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(list[16].dt * 1000));

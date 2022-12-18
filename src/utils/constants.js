@@ -68,4 +68,6 @@ export const selectors = {
   dropdownItemClass: 'search__dropdown-button',
   inputOpenedClass: 'search__input_opened',
   wrapper: '.wrapper',
+  buttonElement: '.previous-request__city-name',
+  previousRequest: '.previous-request',
 };

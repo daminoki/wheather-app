@@ -29,6 +29,8 @@ export default class Search {
     dropdownItemClass,
     inputOpenedClass,
     wrapper,
+    buttonElement,
+    previousRequest,
   }) {
     this._wrapper = document.querySelector(searchWrapper);
     this._inputEl = this._wrapper.querySelector(searchInput);
@@ -43,7 +45,9 @@ export default class Search {
     this._results = [];
     this._debouncedHandle = debounce(this._handleInput.bind(this), 250);
     this._api = api;
-    this._fullWrapper = document.querySelector(wrapper);
+    this._buttonElement = document.querySelector(buttonElement);
+    this._previousRequest = document.querySelector(previousRequest);
+    this._history = [];
   }
 
   setEventListeners() {
@@ -97,6 +101,30 @@ export default class Search {
       window.dispatchEvent(itemSelectedEvent);
 
       this._handleClose();
+      this._handleHistory(selectedItem);
+    });
+  }
+
+  _handleHistory(selectedItem) {
+    if (!this._history.includes(selectedItem) && this._history.length <= 3) {
+      this._history.push(selectedItem);
+      this._previousRequest.insertAdjacentHTML('beforeend', `<div class="previous-request__wrapper">
+      <button type="button" class="previous-request__city-name">${selectedItem.title}</button>
+      <button type="button" class="previous-request__close-icon"></button>
+      </div>`);
+    }
+
+    this._previousRequest.addEventListener('click', async (e) => {
+      const selectedItemIndex = [...this._previousRequest.children].indexOf(e.target);
+      // eslint-disable-next-line no-param-reassign
+      selectedItem = this._history[selectedItemIndex];
+
+      const itemSelectedEvent = new CustomEvent('itemSelectedEvent', {
+        detail: {
+          selectedItem,
+        },
+      });
+      window.dispatchEvent(itemSelectedEvent);
     });
   }
 

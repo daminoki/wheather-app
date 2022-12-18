@@ -19,22 +19,20 @@
     <main class="main">
         <div class="container">
             <section class="search">
-                <img class="search__icon" src="<%=require('./images/search-icon.svg')%>" alt="search icon">
-                <input id="input" type="search" class="search__input" placeholder="Search Location">
-                <template class="search__dropdown-template">
-                    <div class="search__dropdown">
+                    <div class="search__wrapper">
+                        <img class="search__icon" src="<%=require('./images/search-icon.svg')%>" alt="search icon">
+                        <input id="input" type="search" class="search__input" placeholder="Search Location">
+                        <template class="search__dropdown-template">
+                            <div class="search__dropdown"></div>
+                        </template>
                     </div>
-                </template>
+                    <section class="previous-request">
+                    </section>    
             </section>
 
             <div class="load"></div>
 
             <div class="wrapper">
-                <section class="previous-request">
-                    <p class="previous-request__title">You have been searching for:</p>
-                    <p class="previous-request__city-name"></p>
-                </section>
-
                 <section class="main-information">
                     <div class="main-information__wrapper">
                         <img class="main-information__weather-icon" src="" alt="">
