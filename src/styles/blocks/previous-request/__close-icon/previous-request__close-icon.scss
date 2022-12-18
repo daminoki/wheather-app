@@ -4,4 +4,9 @@
   background-image: url("../../../../images/close.svg");
   background-repeat: no-repeat;
   background-position: center;
+
+  @media screen and (max-width: 768px) {
+    width: 15px;
+    height: 15px;
+  }
 }

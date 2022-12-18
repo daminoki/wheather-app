@@ -4,4 +4,9 @@
   gap: 20px;
   align-items: center;
   margin-top: 20px;
+
+  @media screen and (max-width: 768px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
