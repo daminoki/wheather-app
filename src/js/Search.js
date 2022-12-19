@@ -29,7 +29,8 @@ export default class Search {
     this._buttonElement = document.querySelector(buttonElement);
     this._previousRequest = document.querySelector(previousRequest);
     this._history = [];
-    this._apiKey = process.env.SEARCH_API_KEY;
+    // this._apiKey = process.env.SEARCH_API_KEY;
+    this._apiKey = '64258599b0544063661b2622e864c201';
   }
 
   setEventListeners() {
@@ -68,7 +69,7 @@ export default class Search {
   async _handleInput({ target }) {
     const { value } = target;
     if (value.length < 4) return;
-    const list = await api(`http://api.positionstack.com/v1/forward?access_key=64258599b0544063661b2622e864c201&query=${value}&timezone_module=1`);
+    const list = await api(`http://api.positionstack.com/v1/forward?access_key=${this._apiKey}&query=${value}&timezone_module=1`);
     this._results = list.data;
     this._toggleInputView();
     this._renderResults();

@@ -6,7 +6,7 @@ export default class Weather {
     this._api = api;
     this._selectedItem = null;
 
-    this._apiKey = process.env.WEATHER_API_KEY;
+    this._apiKey = 'e6970efb880b105e85f3508dd47a2c23';
     this._baseCurrentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
     this._currentWeatherUrl = new URL(this._baseCurrentWeatherUrl);
     this._currentWeatherUrl.searchParams.append('units', 'metric');
