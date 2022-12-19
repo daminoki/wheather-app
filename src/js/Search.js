@@ -36,6 +36,7 @@ export default class Search {
   setEventListeners() {
     this._inputEl.addEventListener('input', this._debouncedHandle);
     this._handleClick();
+
     window.addEventListener('click', (e) => {
       if (!e.target.contains(this._dropdownItemEl)) {
         this._handleClose();
@@ -45,6 +46,7 @@ export default class Search {
     this._previousRequest.addEventListener('click', async (e) => {
       const previousRequestItemArr = this._previousRequest.querySelectorAll('.previous-request__wrapper');
       const previousRequestItem = [...previousRequestItemArr].map((item) => item.querySelector('.previous-request__city-name'));
+
       if (e.target.classList.contains('previous-request__city-name')) {
         const selectedItemIndex = previousRequestItem.indexOf(e.target);
         const selectedItem = this._history[selectedItemIndex];
@@ -69,9 +71,10 @@ export default class Search {
   async _handleInput({ target }) {
     const { value } = target;
     if (value.length < 4) return;
-    const list = await api(`https://api.opencagedata.com/geocode/v1/json?q=${value}&key=${this._apiKey}&language=en`);
-    this._results = list.results;
-    console.log(list.results);
+
+    const { results } = await api(`https://api.opencagedata.com/geocode/v1/json?q=${value}&key=${this._apiKey}&language=en`);
+    this._results = results;
+
     this._toggleInputView();
     this._renderResults();
   }
@@ -106,6 +109,7 @@ export default class Search {
           selectedItem,
         },
       });
+
       window.dispatchEvent(itemSelectedEvent);
 
       this._handleClose();
@@ -116,11 +120,12 @@ export default class Search {
   _handleHistory(selectedItem) {
     if (!this._history.includes(selectedItem) && this._history.length <= 3) {
       this._history.push(selectedItem);
+
       this._previousRequest.insertAdjacentHTML('beforeend', `
       <div class="previous-request__wrapper">
-      <button type="button" class="previous-request__city-name">${selectedItem.formatted.split(',')[0]}</button>
-      <button type="button" class="previous-request__close-icon"></button>
-    </div>
+        <button type="button" class="previous-request__city-name">${selectedItem.formatted.split(',')[0]}</button>
+        <button type="button" class="previous-request__close-icon"></button>
+      </div>
       `);
     }
   }
