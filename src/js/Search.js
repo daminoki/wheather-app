@@ -28,7 +28,6 @@ export default class Search {
     dropdownItem,
     dropdownItemClass,
     inputOpenedClass,
-    wrapper,
     buttonElement,
     previousRequest,
   }) {
@@ -56,6 +55,27 @@ export default class Search {
     window.addEventListener('click', (e) => {
       if (!e.target.contains(this._dropdownItemEl)) {
         this._handleClose();
+      }
+    });
+
+    this._previousRequest.addEventListener('click', async (e) => {
+      const previousRequestItemArr = this._previousRequest.querySelectorAll('.previous-request__wrapper');
+      const previousRequestItem = [...previousRequestItemArr].map((item) => item.querySelector('.previous-request__city-name'));
+      if (e.target.classList.contains('previous-request__city-name')) {
+        const selectedItemIndex = previousRequestItem.indexOf(e.target);
+        const selectedItem = this._history[selectedItemIndex];
+
+        const itemSelectedEvent = new CustomEvent('itemSelectedEvent', {
+          detail: {
+            selectedItem,
+          },
+        });
+        window.dispatchEvent(itemSelectedEvent);
+      } else if (e.target.classList.contains('previous-request__close-icon')) {
+        const Two = [...previousRequestItemArr].map((item) => item.querySelector('.previous-request__close-icon'));
+        const selectedItemIndex = Two.indexOf(e.target);
+        const selectedItem = previousRequestItemArr[selectedItemIndex];
+        selectedItem.remove();
       }
     });
   }
@@ -108,25 +128,22 @@ export default class Search {
   _handleHistory(selectedItem) {
     if (!this._history.includes(selectedItem) && this._history.length <= 3) {
       this._history.push(selectedItem);
-      this._previousRequest.insertAdjacentHTML('beforeend', `<div class="previous-request__wrapper">
+      this._previousRequest.insertAdjacentHTML('beforeend', `
+      <div class="previous-request__wrapper">
       <button type="button" class="previous-request__city-name">${selectedItem.title}</button>
       <button type="button" class="previous-request__close-icon"></button>
-      </div>`);
+    </div>
+      `);
     }
-
-    this._previousRequest.addEventListener('click', async (e) => {
-      const selectedItemIndex = [...this._previousRequest.children].indexOf(e.target);
-      // eslint-disable-next-line no-param-reassign
-      selectedItem = this._history[selectedItemIndex];
-
-      const itemSelectedEvent = new CustomEvent('itemSelectedEvent', {
-        detail: {
-          selectedItem,
-        },
-      });
-      window.dispatchEvent(itemSelectedEvent);
-    });
   }
+
+  // _handleHistoryItemClose() {
+  //   this._previousRequest.addEventListener('click', (e) => {
+  //     if (e.target.classList.contains('.previous-request__close-icon')) {
+  //       this._previousRequest.remove(e.target);
+  //     }
+  //   });
+  // }
 
   _handleClose() {
     this._dropdownEl.remove();
