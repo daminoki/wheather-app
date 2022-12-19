@@ -77,6 +77,8 @@ export default class Search {
         const selectedItem = previousRequestItemArr[selectedItemIndex];
         selectedItem.remove();
       }
+
+      this._hidePreviousRequest();
     });
   }
 
@@ -137,17 +139,18 @@ export default class Search {
     }
   }
 
-  // _handleHistoryItemClose() {
-  //   this._previousRequest.addEventListener('click', (e) => {
-  //     if (e.target.classList.contains('.previous-request__close-icon')) {
-  //       this._previousRequest.remove(e.target);
-  //     }
-  //   });
-  // }
-
   _handleClose() {
     this._dropdownEl.remove();
     this._inputEl.classList.remove(this._inputOpenedClass);
     this._inputEl.value = '';
+  }
+
+  _hidePreviousRequest() {
+    const wrapper = document.querySelector('.wrapper');
+    const th = document.querySelector('.previous-request__wrapper');
+
+    if (!this._previousRequest.contains(th)) {
+      wrapper.classList.remove('wrapper_opened');
+    }
   }
 }
