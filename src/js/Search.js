@@ -42,11 +42,12 @@ export default class Search {
       .cloneNode(true);
     this._dropdownItemEl = this._dropdownEl.querySelector(dropdownItem);
     this._results = [];
-    this._debouncedHandle = debounce(this._handleInput.bind(this), 250);
+    this._debouncedHandle = debounce(this._handleInput.bind(this), 500);
     this._api = api;
     this._buttonElement = document.querySelector(buttonElement);
     this._previousRequest = document.querySelector(previousRequest);
     this._history = [];
+    this._apiKey = process.env.SEARCH_API_KEY;
   }
 
   setEventListeners() {
@@ -84,8 +85,10 @@ export default class Search {
 
   async _handleInput({ target }) {
     const { value } = target;
-    const { list } = await server.search(value);
-    this._results = list;
+    console.log(this._apiKey);
+    const list = await api(`http://api.positionstack.com/v1/forward?access_key=${this._apiKey}&query=${value}&timezone_module=1`);
+    this._results = list.data;
+    console.log(this._results);
     this._toggleInputView();
     this._renderResults();
   }
@@ -105,7 +108,7 @@ export default class Search {
     this._results.forEach((item) => {
       this._dropdownEl.insertAdjacentHTML(
         'beforeend',
-        `<button class=${this._dropdownItemClass}>${item.title}</button>`,
+        `<button class=${this._dropdownItemClass}>${item.label}</button>`,
       );
     });
   }
@@ -132,7 +135,7 @@ export default class Search {
       this._history.push(selectedItem);
       this._previousRequest.insertAdjacentHTML('beforeend', `
       <div class="previous-request__wrapper">
-      <button type="button" class="previous-request__city-name">${selectedItem.title}</button>
+      <button type="button" class="previous-request__city-name">${selectedItem.name}</button>
       <button type="button" class="previous-request__close-icon"></button>
     </div>
       `);

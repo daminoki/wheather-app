@@ -82,14 +82,14 @@ export default class Weather {
   }
 
   async _fetchCurrentWeatherData() {
-    this._currentWeatherUrl.searchParams.set('lat', this._selectedItem.lat);
-    this._currentWeatherUrl.searchParams.set('lon', this._selectedItem.lon);
+    this._currentWeatherUrl.searchParams.set('lat', this._selectedItem.latitude);
+    this._currentWeatherUrl.searchParams.set('lon', this._selectedItem.longitude);
     this._currentWeatherData = await this._api(this._currentWeatherUrl);
   }
 
   async _fetchForecastWeatherData() {
-    this._forecastWeatherUrl.searchParams.set('lat', this._selectedItem.lat);
-    this._forecastWeatherUrl.searchParams.set('lon', this._selectedItem.lon);
+    this._forecastWeatherUrl.searchParams.set('lat', this._selectedItem.latitude);
+    this._forecastWeatherUrl.searchParams.set('lon', this._selectedItem.longitude);
     this._forecastWeatherData = await this._api(this._forecastWeatherUrl);
   }
 
@@ -111,7 +111,7 @@ export default class Weather {
       icon,
     }] = weather;
 
-    this._cityName.textContent = name;
+    this._cityName.textContent = this._selectedItem.name;
     this._weatherIcon.src = Weather._getUrl(icon);
     this._temp.textContent = `${Math.round(temp)}°`;
     this._weatherDescription.textContent = description;
