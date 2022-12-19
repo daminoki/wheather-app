@@ -1,23 +1,5 @@
 import api from '../utils/api';
-import { cityList } from '../utils/constants';
 import debounce from '../utils/debounce';
-
-function contains(query) {
-  return cityList.filter((city) => city.title.toLowerCase().includes(query.toLowerCase()));
-}
-
-const server = {
-  search(query) {
-    return new Promise((resolve) => {
-      setTimeout(
-        () => resolve({
-          list: query ? contains(query) : [],
-        }),
-        150,
-      );
-    });
-  },
-};
 
 export default class Search {
   constructor({
