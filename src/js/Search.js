@@ -30,7 +30,7 @@ export default class Search {
     this._previousRequest = document.querySelector(previousRequest);
     this._history = [];
     // this._apiKey = process.env.SEARCH_API_KEY;
-    this._apiKey = '64258599b0544063661b2622e864c201';
+    this._apiKey = '0397d7a368004ee080c2ccf5773af927';
   }
 
   setEventListeners() {
@@ -69,8 +69,9 @@ export default class Search {
   async _handleInput({ target }) {
     const { value } = target;
     if (value.length < 4) return;
-    const list = await api(`http://api.positionstack.com/v1/forward?access_key=${this._apiKey}&query=${value}&timezone_module=1`);
-    this._results = list.data;
+    const list = await api(`https://api.opencagedata.com/geocode/v1/json?q=${value}&key=${this._apiKey}&language=en`);
+    this._results = list.results;
+    console.log(list.results);
     this._toggleInputView();
     this._renderResults();
   }
@@ -90,7 +91,7 @@ export default class Search {
     this._results.forEach((item) => {
       this._dropdownEl.insertAdjacentHTML(
         'beforeend',
-        `<button class=${this._dropdownItemClass}>${item.label}</button>`,
+        `<button class=${this._dropdownItemClass}>${item.formatted}</button>`,
       );
     });
   }
@@ -117,7 +118,7 @@ export default class Search {
       this._history.push(selectedItem);
       this._previousRequest.insertAdjacentHTML('beforeend', `
       <div class="previous-request__wrapper">
-      <button type="button" class="previous-request__city-name">${selectedItem.name}</button>
+      <button type="button" class="previous-request__city-name">${selectedItem.formatted.split(',')[0]}</button>
       <button type="button" class="previous-request__close-icon"></button>
     </div>
       `);

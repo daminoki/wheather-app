@@ -82,19 +82,19 @@ export default class Weather {
   }
 
   async _fetchCurrentWeatherData() {
-    this._currentWeatherUrl.searchParams.set('lat', this._selectedItem.latitude);
-    this._currentWeatherUrl.searchParams.set('lon', this._selectedItem.longitude);
+    this._currentWeatherUrl.searchParams.set('lat', this._selectedItem.geometry.lat);
+    this._currentWeatherUrl.searchParams.set('lon', this._selectedItem.geometry.lng);
     this._currentWeatherData = await this._api(this._currentWeatherUrl);
   }
 
   async _fetchForecastWeatherData() {
-    this._forecastWeatherUrl.searchParams.set('lat', this._selectedItem.latitude);
-    this._forecastWeatherUrl.searchParams.set('lon', this._selectedItem.longitude);
+    this._forecastWeatherUrl.searchParams.set('lat', this._selectedItem.geometry.lat);
+    this._forecastWeatherUrl.searchParams.set('lon', this._selectedItem.geometry.lng);
     this._forecastWeatherData = await this._api(this._forecastWeatherUrl);
   }
 
   static _getUrl(icon) {
-    return `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    return `https://openweathermap.org/img/wn/${icon}@2x.png`;
   }
 
   _setСurrentData() {
@@ -110,7 +110,8 @@ export default class Weather {
       icon,
     }] = weather;
 
-    this._cityName.textContent = this._selectedItem.label;
+    // eslint-disable-next-line prefer-destructuring
+    this._cityName.textContent = this._selectedItem.formatted.split(',')[0];
     this._weatherIcon.src = Weather._getUrl(icon);
     this._temp.textContent = `${Math.round(temp)}°`;
     this._weatherDescription.textContent = description;
@@ -137,14 +138,14 @@ export default class Weather {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
-      timeZone: this._selectedItem.timezone_module.name,
+      timeZone: this._selectedItem.annotations.timezone.name,
     };
     this._date.textContent = new Intl.DateTimeFormat('en-US', dateOptions).format(fullDate);
 
     const timeOptions = {
       hour: 'numeric',
       minute: 'numeric',
-      timeZone: this._selectedItem.timezone_module.name,
+      timeZone: this._selectedItem.annotations.timezone.name,
     };
     this._time.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(fullDate);
     this._sunrise.textContent = new Intl.DateTimeFormat('ru-RU', timeOptions).format(sunriseTime);
@@ -154,12 +155,14 @@ export default class Weather {
   _setForecastData() {
     const dateOptions = {
       weekday: 'short',
-      timeZone: this._selectedItem.timezone_module.name,
+      timeZone: this._selectedItem.annotations.timezone.name,
     };
 
     const {
       list,
     } = this._forecastWeatherData;
+
+    console.log(list);
 
     // пожалуй есть смысл вынести new Intl.DateTimeFormat() в отдельный метод
     // туда будут прокидываться dateOptions и дата и возвращаться отформатированная дата
