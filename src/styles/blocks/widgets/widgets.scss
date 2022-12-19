@@ -7,9 +7,8 @@
   margin-top: 40px;
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: auto;
+    grid-template-columns: 1fr;
     gap: 20px;
-    align-items: center;
     justify-content: center;
   }
 }
