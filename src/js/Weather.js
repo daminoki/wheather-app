@@ -111,7 +111,7 @@ export default class Weather {
       icon,
     }] = weather;
 
-    this._cityName.textContent = this._selectedItem.name;
+    this._cityName.textContent = this._selectedItem.label;
     this._weatherIcon.src = Weather._getUrl(icon);
     this._temp.textContent = `${Math.round(temp)}°`;
     this._weatherDescription.textContent = description;

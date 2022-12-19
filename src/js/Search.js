@@ -85,10 +85,9 @@ export default class Search {
 
   async _handleInput({ target }) {
     const { value } = target;
-    console.log(this._apiKey);
+    if (value.length < 4) return;
     const list = await api(`http://api.positionstack.com/v1/forward?access_key=${this._apiKey}&query=${value}&timezone_module=1`);
     this._results = list.data;
-    console.log(this._results);
     this._toggleInputView();
     this._renderResults();
   }
