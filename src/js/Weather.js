@@ -99,7 +99,6 @@ export default class Weather {
 
   _setСurrentData() {
     const {
-      name,
       weather,
       main: { temp, humidity, feels_like },
       visibility,
