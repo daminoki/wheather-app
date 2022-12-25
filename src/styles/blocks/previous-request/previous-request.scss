@@ -5,8 +5,7 @@
   align-items: center;
   margin-top: 20px;
 
-  @media screen and (max-width: 768px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  @media screen and (max-width: 460px) {
+    flex-wrap: wrap;
   }
 }
