@@ -6,6 +6,14 @@
   margin-top: 20px;
 
   @media screen and (max-width: 460px) {
-    flex-wrap: wrap;
+    margin: 0 -20px;
+    padding: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

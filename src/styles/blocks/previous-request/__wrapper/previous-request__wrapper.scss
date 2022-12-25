@@ -13,7 +13,7 @@
 
   @media screen and (max-width: 768px) {
     justify-content: center;
-    width: auto;
+    min-width: fit-content;
   }
 
   &:hover {
