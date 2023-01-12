@@ -162,8 +162,6 @@ export default class Weather {
       list,
     } = this._forecastWeatherData;
 
-    console.log(list);
-
     // пожалуй есть смысл вынести new Intl.DateTimeFormat() в отдельный метод
     // туда будут прокидываться dateOptions и дата и возвращаться отформатированная дата
     // можно будет переиспользовать тут и внутри _setTime()

@@ -24,12 +24,11 @@ export default class Search {
       .cloneNode(true);
     this._dropdownItemEl = this._dropdownEl.querySelector(dropdownItem);
     this._results = [];
-    this._debouncedHandle = debounce(this._handleInput.bind(this), 500);
+    this._debouncedHandle = debounce(this._handleInput.bind(this), 250);
     this._api = api;
     this._buttonElement = document.querySelector(buttonElement);
     this._previousRequest = document.querySelector(previousRequest);
     this._history = [];
-    // this._apiKey = process.env.SEARCH_API_KEY;
     this._apiKey = '0397d7a368004ee080c2ccf5773af927';
   }
 
@@ -58,8 +57,8 @@ export default class Search {
         });
         window.dispatchEvent(itemSelectedEvent);
       } else if (e.target.classList.contains('previous-request__close-icon')) {
-        const Two = [...previousRequestItemArr].map((item) => item.querySelector('.previous-request__close-icon'));
-        const selectedItemIndex = Two.indexOf(e.target);
+        const selectedCloseIcon = [...previousRequestItemArr].map((item) => item.querySelector('.previous-request__close-icon'));
+        const selectedItemIndex = selectedCloseIcon.indexOf(e.target);
         const selectedItem = previousRequestItemArr[selectedItemIndex];
         selectedItem.remove();
       }
@@ -70,7 +69,7 @@ export default class Search {
 
   async _handleInput({ target }) {
     const { value } = target;
-    if (value.length < 4) return;
+    if (value.length < 2) return;
 
     const { results } = await api(`https://api.opencagedata.com/geocode/v1/json?q=${value}&key=${this._apiKey}&language=en`);
     this._results = results;
@@ -118,7 +117,7 @@ export default class Search {
   }
 
   _handleHistory(selectedItem) {
-    if (!this._history.includes(selectedItem) && this._history.length <= 3) {
+    if (!this._history.includes(selectedItem) && this._history.length <= 4) {
       this._history.push(selectedItem);
 
       this._previousRequest.insertAdjacentHTML('beforeend', `
@@ -138,9 +137,9 @@ export default class Search {
 
   _hidePreviousRequest() {
     const wrapper = document.querySelector('.wrapper');
-    const th = document.querySelector('.previous-request__wrapper');
+    const previousRequestWrapper = document.querySelector('.previous-request__wrapper');
 
-    if (!this._previousRequest.contains(th)) {
+    if (!this._previousRequest.contains(previousRequestWrapper)) {
       wrapper.classList.remove('wrapper_opened');
     }
   }
